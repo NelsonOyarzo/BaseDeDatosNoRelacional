@@ -9,7 +9,10 @@ from pymongo import ASCENDING, MongoClient
 from pymongo.errors import PyMongoError
 
 BASE_DIR = Path(__file__).resolve().parent
-DB_NAME = "QuickTrack"
+DATOS_DIR = BASE_DIR.parent / "datos"
+SALIDA_DIR = BASE_DIR.parent / "evidencias"
+SALIDA_DIR.mkdir(exist_ok=True)
+DB_NAME = os.getenv("MONGO_DB", "QuickTrack")
 
 ARCHIVOS = {
     "clientes": "clientes.json",
@@ -39,7 +42,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(message)s",
     handlers=[
-        logging.FileHandler(BASE_DIR / "carga.log", encoding="utf-8"),
+        logging.FileHandler(SALIDA_DIR / "carga.log", encoding="utf-8"),
         logging.StreamHandler(),
     ],
 )
@@ -47,7 +50,7 @@ log = logging.getLogger("carga_quicktrack")
 
 
 def leer_json(nombre_archivo):
-    ruta = BASE_DIR / nombre_archivo
+    ruta = DATOS_DIR / nombre_archivo
     if not ruta.exists():
         raise FileNotFoundError(f"No se encontró {ruta}")
     texto = ruta.read_text(encoding="utf-8").strip()
