@@ -1,0 +1,7 @@
+﻿consulta,escenario,indice,documentos_devueltos,claves_examinadas,documentos_examinados,orden_en_memoria,tiempo_servidor_ms,tiempo_cliente_ms
+C1 Entregas exitosas de mayor valor,antes,estado_1,10,27,27,True,6,100.6
+C2 Cancelaciones pagadas con tarjeta en 2023,antes,estado_1,4,23,23,True,0,96.7
+C3 Pedidos pendientes de alto valor,antes,estado_1,10,51,50,True,0,92.5
+C1 Entregas exitosas de mayor valor,despues,idx_estado_total_desc,10,10,10,False,1,94.7
+C2 Cancelaciones pagadas con tarjeta en 2023,despues,idx_estado_pago_fecha,4,4,4,False,1,136.6
+C3 Pedidos pendientes de alto valor,despues,idx_estado_total_desc,10,11,10,False,0,124.2

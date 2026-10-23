@@ -1,0 +1,14 @@
+2026-10-23 19:46:15,062 | INFO | Conexión exitosa con MongoDB (base QuickTrack)
+2026-10-23 19:46:15,064 | INFO | Midiendo ANTES (índice simple sobre estado)
+2026-10-23 19:46:17,262 | INFO | C1 antes [estado_1]: 10 devueltos, 27 claves, 27 documentos examinados, orden en memoria: sí
+2026-10-23 19:46:19,445 | INFO | C2 antes [estado_1]: 4 devueltos, 23 claves, 23 documentos examinados, orden en memoria: sí
+2026-10-23 19:46:21,465 | INFO | C3 antes [estado_1]: 10 devueltos, 51 claves, 50 documentos examinados, orden en memoria: sí
+2026-10-23 19:46:21,619 | INFO | Índice idx_estado_total_desc creado o ya existente: [('estado', 1), ('total', -1)]
+2026-10-23 19:46:21,768 | INFO | Índice idx_estado_pago_fecha creado o ya existente: [('estado', 1), ('medio_pago', 1), ('fecha_envio', 1)]
+2026-10-23 19:46:21,769 | INFO | Midiendo DESPUÉS (índices compuestos)
+2026-10-23 19:46:23,826 | INFO | C1 despues [idx_estado_total_desc]: 10 devueltos, 10 claves, 10 documentos examinados, orden en memoria: no
+2026-10-23 19:46:26,712 | INFO | C2 despues [idx_estado_pago_fecha]: 4 devueltos, 4 claves, 4 documentos examinados, orden en memoria: no
+2026-10-23 19:46:29,364 | INFO | C3 despues [idx_estado_total_desc]: 10 devueltos, 11 claves, 10 documentos examinados, orden en memoria: no
+2026-10-23 19:46:29,364 | INFO | C1: resultados idénticos antes y después del índice
+2026-10-23 19:46:29,364 | INFO | C2: resultados idénticos antes y después del índice
+2026-10-23 19:46:29,365 | INFO | C3: resultados idénticos antes y después del índice

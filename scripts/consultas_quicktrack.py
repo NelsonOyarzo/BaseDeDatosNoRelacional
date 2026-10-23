@@ -16,7 +16,7 @@ SALIDA_DIR = BASE_DIR.parent / "evidencias"
 if not SALIDA_DIR.exists():
     SALIDA_DIR = BASE_DIR
 
-DB_NAME = "quicktrack"
+DB_NAME = os.getenv("MONGO_DB", "QuickTrack")
 REPETICIONES = 5
 
 logging.basicConfig(
