@@ -1,0 +1,12 @@
+﻿consulta,documentos_devueltos,tiempo_medio_ms,documentos_examinados,usa_indice
+C1 Entregas exitosas de mayor valor,10,74.3,27.0,True
+C2 Cancelaciones pagadas con tarjeta en 2023,4,74.0,23.0,True
+C3 Pedidos pendientes de alto valor,10,74.4,50.0,True
+C4 Resumen de órdenes por estado,4,74.5,,
+C5 Ingresos y órdenes por zona,5,79.3,,
+C6 Clientes con mayor facturación,5,75.1,,
+C7 Rutas más utilizadas,5,75.3,,
+C8 Satisfacción según el estado de la orden,4,80.2,,
+C9 Motivos de valoraciones bajas,6,75.0,,
+C10 Evolución mensual de órdenes e ingresos,30,74.9,,
+C11 Seguimientos inconsistentes,10,74.5,47.0,True

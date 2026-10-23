@@ -1,0 +1,37 @@
+2026-10-22 21:39:32,157 | INFO | Conexión exitosa con MongoDB
+2026-10-22 21:39:32,645 | INFO | C1 ejecutada: 0 documentos, 69.4 ms
+2026-10-22 21:39:33,139 | INFO | C2 ejecutada: 0 documentos, 70.3 ms
+2026-10-22 21:39:33,631 | INFO | C3 ejecutada: 0 documentos, 70.0 ms
+2026-10-22 21:39:34,052 | INFO | C4 ejecutada: 0 documentos, 70.2 ms
+2026-10-22 21:39:34,475 | INFO | C5 ejecutada: 0 documentos, 70.2 ms
+2026-10-22 21:39:34,901 | INFO | C6 ejecutada: 0 documentos, 70.8 ms
+2026-10-22 21:39:35,322 | INFO | C7 ejecutada: 0 documentos, 70.0 ms
+2026-10-22 21:39:35,747 | INFO | C8 ejecutada: 0 documentos, 70.8 ms
+2026-10-22 21:39:36,172 | INFO | C9 ejecutada: 0 documentos, 70.0 ms
+2026-10-22 21:39:36,594 | INFO | C10 ejecutada: 0 documentos, 69.8 ms
+2026-10-22 21:39:37,082 | INFO | C11 ejecutada: 0 documentos, 69.6 ms
+2026-10-22 21:52:57,615 | ERROR | Error de MongoDB: Invalid URI scheme: URI must begin with 'mongodb://' or 'mongodb+srv://'
+2026-10-22 21:53:25,896 | INFO | Conexión exitosa con MongoDB
+2026-10-22 21:53:26,392 | INFO | C1 ejecutada: 0 documentos, 70.4 ms
+2026-10-22 21:53:26,885 | INFO | C2 ejecutada: 0 documentos, 70.3 ms
+2026-10-22 21:53:27,382 | INFO | C3 ejecutada: 0 documentos, 71.0 ms
+2026-10-22 21:53:27,806 | INFO | C4 ejecutada: 0 documentos, 70.3 ms
+2026-10-22 21:53:28,231 | INFO | C5 ejecutada: 0 documentos, 70.9 ms
+2026-10-22 21:53:28,676 | INFO | C6 ejecutada: 0 documentos, 70.7 ms
+2026-10-22 21:53:29,101 | INFO | C7 ejecutada: 0 documentos, 70.2 ms
+2026-10-22 21:53:29,527 | INFO | C8 ejecutada: 0 documentos, 70.9 ms
+2026-10-22 21:53:29,987 | INFO | C9 ejecutada: 0 documentos, 77.4 ms
+2026-10-22 21:53:30,441 | INFO | C10 ejecutada: 0 documentos, 70.6 ms
+2026-10-22 21:53:30,935 | INFO | C11 ejecutada: 0 documentos, 70.3 ms
+2026-10-22 21:55:52,383 | INFO | Conexión exitosa con MongoDB
+2026-10-22 21:55:52,926 | INFO | C1 ejecutada: 10 documentos, 74.3 ms
+2026-10-22 21:55:53,456 | INFO | C2 ejecutada: 4 documentos, 74.0 ms
+2026-10-22 21:55:53,987 | INFO | C3 ejecutada: 10 documentos, 74.4 ms
+2026-10-22 21:55:54,440 | INFO | C4 ejecutada: 4 documentos, 74.5 ms
+2026-10-22 21:55:54,926 | INFO | C5 ejecutada: 5 documentos, 79.3 ms
+2026-10-22 21:55:55,387 | INFO | C6 ejecutada: 5 documentos, 75.1 ms
+2026-10-22 21:55:55,846 | INFO | C7 ejecutada: 5 documentos, 75.3 ms
+2026-10-22 21:55:56,335 | INFO | C8 ejecutada: 4 documentos, 80.2 ms
+2026-10-22 21:55:56,794 | INFO | C9 ejecutada: 6 documentos, 75.0 ms
+2026-10-22 21:55:57,250 | INFO | C10 ejecutada: 30 documentos, 74.9 ms
+2026-10-22 21:55:57,781 | INFO | C11 ejecutada: 10 documentos, 74.5 ms
