@@ -1,0 +1,85 @@
+2026-10-23 20:57:47,789 | INFO | Conexión exitosa con MongoDB (base QuickTrack)
+2026-10-23 20:57:48,462 | INFO | 
+2026-10-23 20:57:48,462 | INFO | ======================================================================
+2026-10-23 20:57:48,462 | INFO | ESCENARIO 1: ciclo de vida de una orden (crear, leer, actualizar, valorar)
+2026-10-23 20:57:48,462 | INFO | ======================================================================
+2026-10-23 20:57:48,777 | INFO | Orden orden_test_001 creada (cliente 1, ruta ruta_1, total 85000.00, Tarjeta)
+2026-10-23 20:57:48,997 | INFO | [OK]    1 Flujo completo | Crear: orden queda En preparación 
+2026-10-23 20:57:48,997 | INFO | [OK]    1 Flujo completo | Crear: seguimiento inicial creado 
+2026-10-23 20:57:48,998 | INFO | [OK]    1 Flujo completo | Leer: datos de la orden coinciden 
+2026-10-23 20:57:49,226 | INFO | Orden orden_test_001: En preparación -> En tránsito
+2026-10-23 20:57:49,452 | INFO | [OK]    1 Flujo completo | Actualizar: orden pasa a En tránsito 
+2026-10-23 20:57:49,605 | INFO | Orden orden_test_001: total 85000.00 -> 92500.50
+2026-10-23 20:57:49,679 | INFO | [OK]    1 Flujo completo | Actualizar: total corregido 85000.0 -> 92500.5
+2026-10-23 20:57:49,910 | INFO | Orden orden_test_001: En tránsito -> Entregado
+2026-10-23 20:57:50,064 | INFO | Valoración de orden_test_001 registrada (puntaje 5)
+2026-10-23 20:57:50,288 | INFO | [OK]    1 Flujo completo | Historial registra cada cambio En preparación -> En tránsito -> Entregado
+2026-10-23 20:57:50,288 | INFO | [OK]    1 Flujo completo | Valoración registrada 
+2026-10-23 20:57:50,662 | INFO | [OK]    1 Flujo completo | Orden consistente de punta a punta 
+2026-10-23 20:57:50,662 | INFO | 
+2026-10-23 20:57:50,662 | INFO | ======================================================================
+2026-10-23 20:57:50,663 | INFO | ESCENARIO 2: cancelación y eliminación sin dejar huérfanos
+2026-10-23 20:57:50,663 | INFO | ======================================================================
+2026-10-23 20:57:50,967 | INFO | Orden orden_test_002 creada (cliente 1, ruta ruta_1, total 45000.00, Efectivo)
+2026-10-23 20:57:51,200 | INFO | Orden orden_test_002: En preparación -> Cancelado
+2026-10-23 20:57:51,273 | INFO | [OK]    2 Cancelar y eliminar | Orden cancelada 
+2026-10-23 20:57:51,584 | INFO | Orden orden_test_002 eliminada (seguimientos: 1, valoraciones: 0)
+2026-10-23 20:57:51,584 | INFO | [OK]    2 Cancelar y eliminar | Eliminar: se borró el seguimiento asociado 
+2026-10-23 20:57:51,809 | INFO | [OK]    2 Cancelar y eliminar | Eliminar: no quedan documentos huérfanos documentos restantes: 0
+2026-10-23 20:57:51,809 | INFO | 
+2026-10-23 20:57:51,809 | INFO | ======================================================================
+2026-10-23 20:57:51,809 | INFO | ESCENARIO 3: entradas inválidas y reglas de negocio (deben ser rechazadas)
+2026-10-23 20:57:51,810 | INFO | ======================================================================
+2026-10-23 20:57:52,194 | INFO | Orden orden_test_004 creada (cliente 1, ruta ruta_1, total 85000.00, Tarjeta)
+2026-10-23 20:57:52,271 | INFO | [OK]    3 Errores provocados | Cliente inexistente rechazado (ValidacionError): El cliente 99999 no existe
+2026-10-23 20:57:52,422 | INFO | [OK]    3 Errores provocados | Ruta inexistente rechazado (ValidacionError): La ruta ruta_99999 no existe
+2026-10-23 20:57:52,422 | INFO | [OK]    3 Errores provocados | Total negativo rechazado (ValidacionError): El total debe ser mayor que 0
+2026-10-23 20:57:52,422 | INFO | [OK]    3 Errores provocados | Total no numérico rechazado (ValidacionError): El total debe ser un número
+2026-10-23 20:57:52,423 | INFO | [OK]    3 Errores provocados | Medio de pago inválido rechazado (ValidacionError): Medio de pago inválido. Opciones: Tarjeta, Efectivo, Transferencia
+2026-10-23 20:57:52,645 | WARNING | crear_orden: la orden orden_test_001 ya existe
+2026-10-23 20:57:52,646 | INFO | [OK]    3 Errores provocados | Id de orden duplicado rechazado (ConflictoError): Ya existe la orden orden_test_001
+2026-10-23 20:57:52,646 | INFO | [OK]    3 Errores provocados | Id con operador de MongoDB (inyección) rechazado (ValidacionError): El id de orden debe ser un texto con formato orden_<identificador>
+2026-10-23 20:57:52,721 | INFO | [OK]    3 Errores provocados | Leer orden inexistente rechazado (NoEncontradoError): La orden orden_test_404 no existe
+2026-10-23 20:57:52,795 | WARNING | avanzar_estado: orden_test_001 no puede pasar de Entregado a En preparación
+2026-10-23 20:57:52,795 | INFO | [OK]    3 Errores provocados | Transición no permitida (Entregado -> En preparación) rechazado (ConflictoError): Transición no permitida: Entregado -> En preparación. Permitidas: ninguna (estado final)
+2026-10-23 20:57:52,868 | WARNING | avanzar_estado: orden_test_004 no puede pasar de En preparación a Entregado
+2026-10-23 20:57:52,869 | INFO | [OK]    3 Errores provocados | Saltar etapas (En preparación -> Entregado) rechazado (ConflictoError): Transición no permitida: En preparación -> Entregado. Permitidas: En tránsito, Cancelado
+2026-10-23 20:57:52,942 | WARNING | corregir_total: orden_test_001 está Entregado
+2026-10-23 20:57:52,942 | INFO | [OK]    3 Errores provocados | Corregir total de orden entregada rechazado (ConflictoError): No se puede corregir el total de una orden Entregado
+2026-10-23 20:57:53,089 | WARNING | registrar_valoracion: la orden orden_test_001 ya tiene valoración
+2026-10-23 20:57:53,089 | INFO | [OK]    3 Errores provocados | Valoración duplicada (índice único) rechazado (ConflictoError): La orden orden_test_001 ya tiene una valoración
+2026-10-23 20:57:53,090 | INFO | [OK]    3 Errores provocados | Puntaje fuera de rango rechazado (ValidacionError): El puntaje debe ser un entero entre 1 y 5
+2026-10-23 20:57:53,166 | INFO | [OK]    3 Errores provocados | Valorar orden no entregada rechazado (ConflictoError): Solo se pueden valorar órdenes entregadas (estado actual: En preparación)
+2026-10-23 20:57:53,241 | WARNING | eliminar_orden: orden_test_001 está Entregado y no se elimina
+2026-10-23 20:57:53,241 | INFO | [OK]    3 Errores provocados | Eliminar orden entregada sin autorización rechazado (ConflictoError): No se puede eliminar una orden Entregado; solo canceladas o en preparación
+2026-10-23 20:57:53,317 | INFO | [OK]    3 Errores provocados | Los datos originales no cambiaron tras los rechazos 
+2026-10-23 20:57:53,390 | INFO | [OK]    3 Errores provocados | La orden abierta sigue En preparación 
+2026-10-23 20:57:53,390 | INFO | 
+2026-10-23 20:57:53,391 | INFO | ======================================================================
+2026-10-23 20:57:53,391 | INFO | ESCENARIO 4: detección y corrección de inconsistencias
+2026-10-23 20:57:53,391 | INFO | ======================================================================
+2026-10-23 20:57:53,391 | INFO | Estado inicial de la base (antes de las pruebas): {'ordenes_sin_cliente': 0, 'ordenes_sin_ruta': 0, 'ordenes_sin_seguimiento': 0, 'seguimientos_huerfanos': 0, 'valoraciones_huerfanas': 0, 'seguimientos_inconsistentes': 96}
+2026-10-23 20:57:53,698 | INFO | Orden orden_test_005 creada (cliente 1, ruta ruta_1, total 85000.00, Tarjeta)
+2026-10-23 20:57:54,153 | INFO | [OK]    4 Integridad | Detecta seguimiento desalineado estado_actual del seguimiento (Entregado) distinto del estado de la orden (En preparación)
+2026-10-23 20:57:54,754 | INFO | [OK]    4 Integridad | La auditoría global lo incluye 
+2026-10-23 20:57:54,981 | INFO | Seguimiento de orden_test_005 sincronizado con el estado En preparación
+2026-10-23 20:57:55,351 | INFO | [OK]    4 Integridad | Corrige el seguimiento con sincronizar_seguimiento 
+2026-10-23 20:57:56,105 | INFO | [OK]    4 Integridad | Detecta valoración huérfana 
+2026-10-23 20:57:56,777 | INFO | Huérfanos eliminados: 0 seguimientos, 1 valoraciones
+2026-10-23 20:57:57,443 | INFO | [OK]    4 Integridad | Elimina la valoración huérfana 
+2026-10-23 20:57:58,035 | INFO | [OK]    4 Integridad | El CRUD no introdujo inconsistencias inconsistentes: 96 antes y 96 después
+2026-10-23 20:57:58,629 | INFO | Datos originales: 96 seguimientos desalineados de su orden. No se modifican (modo simulación) para no alterar los resultados de C11.
+2026-10-23 20:57:59,226 | INFO | [OK]    4 Integridad | Reparación en modo simulación no modifica datos detectados: 96
+2026-10-23 20:57:59,226 | INFO | 
+2026-10-23 20:57:59,226 | INFO | ======================================================================
+2026-10-23 20:57:59,227 | INFO | CIERRE: limpieza de datos de prueba
+2026-10-23 20:57:59,227 | INFO | ======================================================================
+2026-10-23 20:57:59,475 | INFO | Documentos de prueba eliminados: 7
+2026-10-23 20:58:00,085 | INFO | [OK]    Cierre | No quedan datos de prueba 
+2026-10-23 20:58:00,086 | INFO | [OK]    Cierre | La base volvió a su estado inicial totales: {'ordenes': 100, 'seguimientos': 100, 'valoraciones': 100}
+2026-10-23 20:58:00,161 | INFO | 
+2026-10-23 20:58:00,161 | INFO | ======================================================================
+2026-10-23 20:58:00,162 | INFO | RESUMEN
+2026-10-23 20:58:00,162 | INFO | ======================================================================
+2026-10-23 20:58:00,162 | INFO | Comprobaciones: 37 | correctas: 37 | con fallo: 0
+2026-10-23 20:58:00,162 | INFO | Resultados guardados en C:\Users\nelca\BaseDeDatosNoRelacional\evidencias\crud_resultados.csv

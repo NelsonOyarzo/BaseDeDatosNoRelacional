@@ -1,0 +1,38 @@
+﻿escenario,caso,resultado,detalle
+1 Flujo completo,Crear: orden queda En preparación,OK,
+1 Flujo completo,Crear: seguimiento inicial creado,OK,
+1 Flujo completo,Leer: datos de la orden coinciden,OK,
+1 Flujo completo,Actualizar: orden pasa a En tránsito,OK,
+1 Flujo completo,Actualizar: total corregido,OK,85000.0 -> 92500.5
+1 Flujo completo,Historial registra cada cambio,OK,En preparación -> En tránsito -> Entregado
+1 Flujo completo,Valoración registrada,OK,
+1 Flujo completo,Orden consistente de punta a punta,OK,
+2 Cancelar y eliminar,Orden cancelada,OK,
+2 Cancelar y eliminar,Eliminar: se borró el seguimiento asociado,OK,
+2 Cancelar y eliminar,Eliminar: no quedan documentos huérfanos,OK,documentos restantes: 0
+3 Errores provocados,Cliente inexistente,OK,rechazado (ValidacionError): El cliente 99999 no existe
+3 Errores provocados,Ruta inexistente,OK,rechazado (ValidacionError): La ruta ruta_99999 no existe
+3 Errores provocados,Total negativo,OK,rechazado (ValidacionError): El total debe ser mayor que 0
+3 Errores provocados,Total no numérico,OK,rechazado (ValidacionError): El total debe ser un número
+3 Errores provocados,Medio de pago inválido,OK,"rechazado (ValidacionError): Medio de pago inválido. Opciones: Tarjeta, Efectivo, Transferencia"
+3 Errores provocados,Id de orden duplicado,OK,rechazado (ConflictoError): Ya existe la orden orden_test_001
+3 Errores provocados,Id con operador de MongoDB (inyección),OK,rechazado (ValidacionError): El id de orden debe ser un texto con formato orden_<identificador>
+3 Errores provocados,Leer orden inexistente,OK,rechazado (NoEncontradoError): La orden orden_test_404 no existe
+3 Errores provocados,Transición no permitida (Entregado -> En preparación),OK,rechazado (ConflictoError): Transición no permitida: Entregado -> En preparación. Permitidas: ninguna (estado final)
+3 Errores provocados,Saltar etapas (En preparación -> Entregado),OK,"rechazado (ConflictoError): Transición no permitida: En preparación -> Entregado. Permitidas: En tránsito, Cancelado"
+3 Errores provocados,Corregir total de orden entregada,OK,rechazado (ConflictoError): No se puede corregir el total de una orden Entregado
+3 Errores provocados,Valoración duplicada (índice único),OK,rechazado (ConflictoError): La orden orden_test_001 ya tiene una valoración
+3 Errores provocados,Puntaje fuera de rango,OK,rechazado (ValidacionError): El puntaje debe ser un entero entre 1 y 5
+3 Errores provocados,Valorar orden no entregada,OK,rechazado (ConflictoError): Solo se pueden valorar órdenes entregadas (estado actual: En preparación)
+3 Errores provocados,Eliminar orden entregada sin autorización,OK,rechazado (ConflictoError): No se puede eliminar una orden Entregado; solo canceladas o en preparación
+3 Errores provocados,Los datos originales no cambiaron tras los rechazos,OK,
+3 Errores provocados,La orden abierta sigue En preparación,OK,
+4 Integridad,Detecta seguimiento desalineado,OK,estado_actual del seguimiento (Entregado) distinto del estado de la orden (En preparación)
+4 Integridad,La auditoría global lo incluye,OK,
+4 Integridad,Corrige el seguimiento con sincronizar_seguimiento,OK,
+4 Integridad,Detecta valoración huérfana,OK,
+4 Integridad,Elimina la valoración huérfana,OK,
+4 Integridad,El CRUD no introdujo inconsistencias,OK,inconsistentes: 96 antes y 96 después
+4 Integridad,Reparación en modo simulación no modifica datos,OK,detectados: 96
+Cierre,No quedan datos de prueba,OK,
+Cierre,La base volvió a su estado inicial,OK,"totales: {'ordenes': 100, 'seguimientos': 100, 'valoraciones': 100}"
