@@ -1,0 +1,3246 @@
+{
+  "info": {
+    "_postman_id": "5c50ef8a-d444-5e90-bc43-0655c853057d",
+    "name": "QuickTrack API",
+    "description": "Pruebas de integración de la API REST de QuickTrack (secciones 6 y 7 del informe).\n\nEjecutar la colección completa en orden (Run collection). Crea órdenes con prefijo `orden_test_api_` y las elimina en la carpeta 07, de modo que la base queda igual que al inicio. Si una ejecución se interrumpe, `python scripts/demo_crud.py` borra los restos (elimina todo lo que empiece con `orden_test_`).\n\nRequiere el entorno *QuickTrack local* (variable `baseUrl`).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Se ejecuta después de cada solicitud de la colección",
+          "pm.test('Trazabilidad: responde X-Request-ID y X-Response-Time', () => {",
+          "    pm.expect(pm.response.headers.has('X-Request-ID')).to.be.true;",
+          "    pm.expect(pm.response.headers.has('X-Response-Time')).to.be.true;",
+          "});",
+          "pm.test('Tiempo de respuesta menor a 5 s', () => pm.expect(pm.response.responseTime).to.be.below(5000));",
+          "if (pm.response.code >= 400) {",
+          "    pm.test('Error en formato Problem Details (RFC 9457)', () => {",
+          "        pm.expect(pm.response.headers.get('Content-Type')).to.include('application/problem+json');",
+          "        const p = pm.response.json();",
+          "        pm.expect(p).to.include.keys('type', 'title', 'status', 'detail', 'instance', 'codigo', 'id_solicitud');",
+          "        pm.expect(p.status).to.eql(pm.response.code);",
+          "        pm.expect(p.id_solicitud).to.eql(pm.response.headers.get('X-Request-ID'));",
+          "    });",
+          "    pm.test('No expone trazas internas', () => pm.expect(pm.response.text()).to.not.include('Traceback'));",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "sufijo",
+      "value": ""
+    },
+    {
+      "key": "clienteId",
+      "value": ""
+    },
+    {
+      "key": "rutaId",
+      "value": ""
+    },
+    {
+      "key": "ordenA",
+      "value": ""
+    },
+    {
+      "key": "ordenB",
+      "value": ""
+    },
+    {
+      "key": "ordenC",
+      "value": ""
+    },
+    {
+      "key": "base_totales",
+      "value": ""
+    },
+    {
+      "key": "base_resumen",
+      "value": ""
+    },
+    {
+      "key": "base_detalle",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "00 Preparación",
+      "description": "Comprueba la API y guarda el estado inicial de la base para compararlo al final.",
+      "item": [
+        {
+          "name": "Salud de la API y de la base",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/salud",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "salud"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Sufijo único por ejecución: las órdenes de prueba no chocan entre corridas",
+                  "pm.collectionVariables.set(\"sufijo\", Date.now().toString(36));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"API ok y base conectada\", () => {",
+                  "    pm.expect(json.estado).to.eql(\"ok\");",
+                  "    pm.expect(json.base_datos.estado).to.eql(\"conectada\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Auditoría inicial (estado de referencia)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/integridad/auditoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integridad",
+                "auditoria"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Trae totales y resumen\", () => {",
+                  "    pm.expect(json.totales).to.have.keys('ordenes', 'seguimientos', 'valoraciones');",
+                  "    pm.expect(json.resumen).to.be.an('object');",
+                  "});",
+                  "pm.collectionVariables.set(\"base_totales\", JSON.stringify(json.totales));",
+                  "pm.collectionVariables.set(\"base_resumen\", JSON.stringify(json.resumen));",
+                  "pm.collectionVariables.set(\"base_detalle\", JSON.stringify(json.detalle));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Catálogo de errores",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/errores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "errores"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Incluye los códigos principales\", () => {",
+                  "    const codigos = json.map(e => e.codigo);",
+                  "    ['VALIDACION', 'NO_ENCONTRADO', 'CONFLICTO', 'METODO_NO_PERMITIDO', 'BASE_NO_DISPONIBLE', 'ERROR_INTERNO'].forEach(c => pm.expect(codigos).to.include(c));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01 Catálogos",
+      "description": "Lectura de clientes y rutas, filtros y paginación.",
+      "item": [
+        {
+          "name": "Listar clientes (paginado)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clientes?limite=5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes"
+              ],
+              "query": [
+                {
+                  "key": "limite",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Página de 5 clientes con id numérico\", () => {",
+                  "    pm.expect(json.limite).to.eql(5);",
+                  "    pm.expect(json.datos).to.have.lengthOf.within(1, 5);",
+                  "    pm.expect(json.total).to.be.at.least(json.datos.length);",
+                  "    json.datos.forEach(c => pm.expect(c._id).to.be.a('number'));",
+                  "});",
+                  "pm.collectionVariables.set(\"clienteId\", json.datos[0]._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Leer un cliente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clientes/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes",
+                "{{clienteId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Es el cliente pedido\", () => {",
+                  "    pm.expect(json._id).to.eql(Number(pm.collectionVariables.get(\"clienteId\")));",
+                  "    pm.expect(json).to.include.keys('nombre', 'correo', 'pais', 'fecha_registro');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Leer un cliente con prefijo cli_",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clientes/cli_{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes",
+                "cli_{{clienteId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Acepta el formato cli_<id>\", () => {",
+                  "    pm.expect(json._id).to.eql(Number(pm.collectionVariables.get(\"clienteId\")));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Órdenes de un cliente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clientes/{{clienteId}}/ordenes?limite=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes",
+                "{{clienteId}}",
+                "ordenes"
+              ],
+              "query": [
+                {
+                  "key": "limite",
+                  "value": "100"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Todas son del cliente\", () => {",
+                  "    const id = Number(pm.collectionVariables.get(\"clienteId\"));",
+                  "    json.datos.forEach(o => pm.expect(o.cliente_id).to.eql(id));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar rutas (orden numérico)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/rutas?limite=5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rutas"
+              ],
+              "query": [
+                {
+                  "key": "limite",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Ids en orden numérico (ruta_2 antes que ruta_10)\", () => {",
+                  "    const numeros = json.datos.map(r => Number(r._id.split('_')[1]));",
+                  "    pm.expect(numeros).to.eql([...numeros].sort((a, b) => a - b));",
+                  "});",
+                  "pm.collectionVariables.set(\"rutaId\", json.datos[0]._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Filtrar rutas por zona sin distinguir mayúsculas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/rutas?zona=norte&limite=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rutas"
+              ],
+              "query": [
+                {
+                  "key": "zona",
+                  "value": "norte"
+                },
+                {
+                  "key": "limite",
+                  "value": "100"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Solo rutas de la zona Norte\", () => {",
+                  "    pm.expect(json.datos.length).to.be.above(0);",
+                  "    json.datos.forEach(r => pm.expect(r.zona).to.eql('Norte'));",
+                  "    pm.expect(json.total).to.eql(json.datos.length);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Leer una ruta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/rutas/{{rutaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rutas",
+                "{{rutaId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Es la ruta pedida\", () => {",
+                  "    pm.expect(json._id).to.eql(pm.collectionVariables.get(\"rutaId\"));",
+                  "    pm.expect(json.distancia_km).to.be.a('number');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Paginación de órdenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes?limite=10&salto=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ],
+              "query": [
+                {
+                  "key": "limite",
+                  "value": "10"
+                },
+                {
+                  "key": "salto",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Segunda página, más recientes primero\", () => {",
+                  "    pm.expect(json.limite).to.eql(10);",
+                  "    pm.expect(json.salto).to.eql(10);",
+                  "    pm.expect(json.datos).to.have.lengthOf.at.most(10);",
+                  "    const fechas = json.datos.map(o => o.fecha_envio);",
+                  "    pm.expect(fechas).to.eql([...fechas].sort().reverse());",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 Consultas de análisis",
+      "description": "Ejecuta las consultas C1 a C11 del informe sobre los datos originales (antes de crear órdenes de prueba).",
+      "item": [
+        {
+          "name": "Listar consultas disponibles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Son las 11 consultas del informe\", () => {",
+                  "    pm.expect(json.map(c => c.id)).to.eql(['C1','C2','C3','C4','C5','C6','C7','C8','C9','C10','C11']);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta C1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C1"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Resultado con tiempo medido\", () => {",
+                  "    pm.expect(json.id).to.eql('C1');",
+                  "    pm.expect(json.resultados).to.be.an('array');",
+                  "    pm.expect(json.documentos).to.eql(json.resultados.length);",
+                  "    pm.expect(json.tiempo_ms).to.be.a('number');",
+                  "});",
+                  "pm.test(\"Los resultados cumplen el requerimiento de C1\", () => {",
+                  "    json.resultados.forEach(o => { pm.expect(o.estado).to.eql('Entregado'); pm.expect(o.total).to.be.at.least(100000); });",
+                  "    const t = json.resultados.map(o => o.total); pm.expect(t).to.eql([...t].sort((a, b) => b - a));",
+                  "    pm.expect(json.documentos).to.be.at.most(10);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta C2",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C2"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Resultado con tiempo medido\", () => {",
+                  "    pm.expect(json.id).to.eql('C2');",
+                  "    pm.expect(json.resultados).to.be.an('array');",
+                  "    pm.expect(json.documentos).to.eql(json.resultados.length);",
+                  "    pm.expect(json.tiempo_ms).to.be.a('number');",
+                  "});",
+                  "pm.test(\"Los resultados cumplen el requerimiento de C2\", () => {",
+                  "    json.resultados.forEach(o => { pm.expect(o.estado).to.eql('Cancelado'); pm.expect(o.medio_pago).to.eql('Tarjeta'); pm.expect(o.fecha_envio.startsWith('2023')).to.be.true; });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta C3",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C3"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Resultado con tiempo medido\", () => {",
+                  "    pm.expect(json.id).to.eql('C3');",
+                  "    pm.expect(json.resultados).to.be.an('array');",
+                  "    pm.expect(json.documentos).to.eql(json.resultados.length);",
+                  "    pm.expect(json.tiempo_ms).to.be.a('number');",
+                  "});",
+                  "pm.test(\"Los resultados cumplen el requerimiento de C3\", () => {",
+                  "    json.resultados.forEach(o => { pm.expect(['En preparación', 'En tránsito']).to.include(o.estado); pm.expect(o.total).to.be.at.least(150000); });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta C4",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C4",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C4"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Resultado con tiempo medido\", () => {",
+                  "    pm.expect(json.id).to.eql('C4');",
+                  "    pm.expect(json.resultados).to.be.an('array');",
+                  "    pm.expect(json.documentos).to.eql(json.resultados.length);",
+                  "    pm.expect(json.tiempo_ms).to.be.a('number');",
+                  "});",
+                  "pm.test(\"Los resultados cumplen el requerimiento de C4\", () => {",
+                  "    const base = JSON.parse(pm.collectionVariables.get('base_totales'));",
+                  "    pm.expect(json.resultados.reduce((s, r) => s + r.ordenes, 0)).to.eql(base.ordenes);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta C5",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C5"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Resultado con tiempo medido\", () => {",
+                  "    pm.expect(json.id).to.eql('C5');",
+                  "    pm.expect(json.resultados).to.be.an('array');",
+                  "    pm.expect(json.documentos).to.eql(json.resultados.length);",
+                  "    pm.expect(json.tiempo_ms).to.be.a('number');",
+                  "});",
+                  "pm.test(\"Los resultados cumplen el requerimiento de C5\", () => {",
+                  "    const i = json.resultados.map(r => r.ingresos); pm.expect(i).to.eql([...i].sort((a, b) => b - a));",
+                  "    json.resultados.forEach(r => pm.expect(r).to.have.keys('zona', 'ordenes', 'ingresos', 'ticket_medio'));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta C6",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C6",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C6"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Resultado con tiempo medido\", () => {",
+                  "    pm.expect(json.id).to.eql('C6');",
+                  "    pm.expect(json.resultados).to.be.an('array');",
+                  "    pm.expect(json.documentos).to.eql(json.resultados.length);",
+                  "    pm.expect(json.tiempo_ms).to.be.a('number');",
+                  "});",
+                  "pm.test(\"Los resultados cumplen el requerimiento de C6\", () => {",
+                  "    pm.expect(json.documentos).to.eql(5);",
+                  "    json.resultados.forEach(r => pm.expect(r).to.include.keys('cliente_id', 'nombre', 'total'));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta C7",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C7",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C7"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Resultado con tiempo medido\", () => {",
+                  "    pm.expect(json.id).to.eql('C7');",
+                  "    pm.expect(json.resultados).to.be.an('array');",
+                  "    pm.expect(json.documentos).to.eql(json.resultados.length);",
+                  "    pm.expect(json.tiempo_ms).to.be.a('number');",
+                  "});",
+                  "pm.test(\"Los resultados cumplen el requerimiento de C7\", () => {",
+                  "    pm.expect(json.documentos).to.be.within(1, 5);",
+                  "    json.resultados.forEach(r => pm.expect(r).to.include.keys('ruta_id', 'origen', 'destino', 'ordenes'));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta C8",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C8",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C8"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Resultado con tiempo medido\", () => {",
+                  "    pm.expect(json.id).to.eql('C8');",
+                  "    pm.expect(json.resultados).to.be.an('array');",
+                  "    pm.expect(json.documentos).to.eql(json.resultados.length);",
+                  "    pm.expect(json.tiempo_ms).to.be.a('number');",
+                  "});",
+                  "pm.test(\"Los resultados cumplen el requerimiento de C8\", () => {",
+                  "    json.resultados.forEach(r => pm.expect(r.puntaje_medio).to.be.within(1, 5));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta C9",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C9",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C9"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Resultado con tiempo medido\", () => {",
+                  "    pm.expect(json.id).to.eql('C9');",
+                  "    pm.expect(json.resultados).to.be.an('array');",
+                  "    pm.expect(json.documentos).to.eql(json.resultados.length);",
+                  "    pm.expect(json.tiempo_ms).to.be.a('number');",
+                  "});",
+                  "pm.test(\"Los resultados cumplen el requerimiento de C9\", () => {",
+                  "    json.resultados.forEach(r => pm.expect(r.puntaje_medio).to.be.at.most(2));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta C10",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C10"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Resultado con tiempo medido\", () => {",
+                  "    pm.expect(json.id).to.eql('C10');",
+                  "    pm.expect(json.resultados).to.be.an('array');",
+                  "    pm.expect(json.documentos).to.eql(json.resultados.length);",
+                  "    pm.expect(json.tiempo_ms).to.be.a('number');",
+                  "});",
+                  "pm.test(\"Los resultados cumplen el requerimiento de C10\", () => {",
+                  "    const m = json.resultados.map(r => r.mes); pm.expect(m).to.eql([...m].sort());",
+                  "    m.forEach(x => pm.expect(x).to.match(/^\\d{4}-\\d{2}$/));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta C11",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C11",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C11"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Resultado con tiempo medido\", () => {",
+                  "    pm.expect(json.id).to.eql('C11');",
+                  "    pm.expect(json.resultados).to.be.an('array');",
+                  "    pm.expect(json.documentos).to.eql(json.resultados.length);",
+                  "    pm.expect(json.tiempo_ms).to.be.a('number');",
+                  "});",
+                  "pm.test(\"Los resultados cumplen el requerimiento de C11\", () => {",
+                  "    json.resultados.forEach(s => pm.expect(s.estado_actual).to.eql('En preparación'));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consulta con id en minúsculas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/c4",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "c4"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Normaliza el id', () => pm.expect(pm.response.json().id).to.eql('C4'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 Ciclo de vida de una orden",
+      "description": "Crear, leer, avanzar estados, corregir el total y valorar.",
+      "item": [
+        {
+          "name": "Crear orden",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente_id\": {{clienteId}},\n  \"ruta_id\": \"{{rutaId}}\",\n  \"total\": 85000,\n  \"medio_pago\": \"Tarjeta\",\n  \"orden_id\": \"orden_test_api_{{sufijo}}_a\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Nace En preparación con su seguimiento\", () => {",
+                  "    pm.expect(json.orden.estado).to.eql('En preparación');",
+                  "    pm.expect(json.orden.total).to.eql(85000);",
+                  "    pm.expect(json.seguimiento.estado_actual).to.eql('En preparación');",
+                  "    pm.expect(json.seguimiento.historial).to.have.lengthOf(1);",
+                  "});",
+                  "pm.test(\"Cabecera Location apunta a la orden\", () => {",
+                  "    pm.expect(pm.response.headers.get('Location')).to.include('/api/v1/ordenes/' + json.orden._id);",
+                  "});",
+                  "pm.collectionVariables.set(\"ordenA\", json.orden._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Leer la orden con detalle",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Incluye seguimiento y aún no tiene valoración\", () => {",
+                  "    pm.expect(json._id).to.eql(pm.collectionVariables.get('ordenA'));",
+                  "    pm.expect(json.seguimiento).to.not.be.null;",
+                  "    pm.expect(json.valoracion).to.be.null;",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Leer la orden sin detalle",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}?detalle=false",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}"
+              ],
+              "query": [
+                {
+                  "key": "detalle",
+                  "value": "false"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Solo los campos de la orden\", () => {",
+                  "    pm.expect(json).to.not.have.any.keys('seguimiento', 'valoracion');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "La orden aparece en el listado del cliente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes?cliente_id={{clienteId}}&limite=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ],
+              "query": [
+                {
+                  "key": "cliente_id",
+                  "value": "{{clienteId}}"
+                },
+                {
+                  "key": "limite",
+                  "value": "100"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Contiene la orden creada\", () => {",
+                  "    pm.expect(json.datos.map(o => o._id)).to.include(pm.collectionVariables.get('ordenA'));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Filtrar órdenes por estado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes?estado=En preparación&limite=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ],
+              "query": [
+                {
+                  "key": "estado",
+                  "value": "En preparación"
+                },
+                {
+                  "key": "limite",
+                  "value": "100"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Todas En preparación, incluida la nueva\", () => {",
+                  "    json.datos.forEach(o => pm.expect(o.estado).to.eql('En preparación'));",
+                  "    pm.expect(json.datos.map(o => o._id)).to.include(pm.collectionVariables.get('ordenA'));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Avanzar a En tránsito",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "estado"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"En tránsito\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Cambio registrado\", () => {",
+                  "    pm.expect(json.estado_anterior).to.eql('En preparación');",
+                  "    pm.expect(json.estado_nuevo).to.eql('En tránsito');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Corregir el total",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/total",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "total"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"total\": 92500.5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Total modificado\", () => {",
+                  "    pm.expect(json.modificado).to.be.true;",
+                  "    pm.expect(json.total_anterior).to.eql(85000);",
+                  "    pm.expect(json.total_nuevo).to.eql(92500.5);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Corregir con el mismo total (idempotente)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/total",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "total"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"total\": 92500.5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('No modifica nada', () => pm.expect(pm.response.json().modificado).to.be.false);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Avanzar a Entregado",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "estado"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"Entregado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Queda Entregado', () => pm.expect(pm.response.json().estado_nuevo).to.eql('Entregado'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Registrar la valoración",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/valoracion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "valoracion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"puntaje\": 5,\n  \"comentario\": \"Entrega puntual (prueba Postman)\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Valoración guardada\", () => {",
+                  "    pm.expect(json.puntaje).to.eql(5);",
+                  "    pm.expect(json.orden_id).to.eql(pm.collectionVariables.get('ordenA'));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Seguimiento con el historial completo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/seguimiento",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "seguimiento"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Registra cada cambio de estado\", () => {",
+                  "    pm.expect(json.estado_actual).to.eql('Entregado');",
+                  "    pm.expect(json.historial.map(e => e.estado)).to.eql(['En preparación', 'En tránsito', 'Entregado']);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "La orden es consistente de punta a punta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/consistencia",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "consistencia"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Sin problemas\", () => {",
+                  "    pm.expect(json.consistente).to.be.true;",
+                  "    pm.expect(json.problemas).to.eql([]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 Cancelación y eliminación",
+      "description": "Una orden cancelada se elimina sin dejar documentos huérfanos.",
+      "item": [
+        {
+          "name": "Crear orden con id automático y fecha propia",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente_id\": \"cli_{{clienteId}}\",\n  \"ruta_id\": \"{{rutaId}}\",\n  \"total\": 45000,\n  \"medio_pago\": \"Efectivo\",\n  \"fecha_envio\": \"2024-05-31\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Recibe el siguiente id numérico\", () => {",
+                  "    pm.expect(json.orden._id).to.match(/^orden_\\d+$/);",
+                  "    pm.expect(json.orden.fecha_envio.startsWith('2024-05-31')).to.be.true;",
+                  "    pm.expect(json.orden.cliente_id).to.eql(Number(pm.collectionVariables.get('clienteId')));",
+                  "});",
+                  "pm.collectionVariables.set(\"ordenB\", json.orden._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cancelar la orden",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenB}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenB}}",
+                "estado"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"Cancelado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Eliminar la orden cancelada",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenB}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenB}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Se borró también su seguimiento\", () => {",
+                  "    pm.expect(json.seguimientos_eliminados).to.eql(1);",
+                  "    pm.expect(json.valoraciones_eliminadas).to.eql(0);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "La orden eliminada ya no existe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenB}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenB}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"codigo NO_ENCONTRADO\", () => pm.expect(pm.response.json().codigo).to.eql(\"NO_ENCONTRADO\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "No quedaron documentos huérfanos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/integridad/auditoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integridad",
+                "auditoria"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Huérfanos sin cambios respecto del inicio\", () => {",
+                  "    const base = JSON.parse(pm.collectionVariables.get('base_detalle'));",
+                  "    pm.expect(json.detalle.seguimientos_huerfanos).to.eql(base.seguimientos_huerfanos);",
+                  "    pm.expect(json.detalle.valoraciones_huerfanas).to.eql(base.valoraciones_huerfanas);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05 Control de errores",
+      "description": "Errores provocados a propósito. Cada uno debe responder el código HTTP correcto con el formato Problem Details (application/problem+json), sin modificar los datos.",
+      "item": [
+        {
+          "name": "Preparar una orden abierta para las pruebas",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente_id\": {{clienteId}},\n  \"ruta_id\": \"{{rutaId}}\",\n  \"total\": 50000,\n  \"medio_pago\": \"Tarjeta\",\n  \"orden_id\": \"orden_test_api_{{sufijo}}_c\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set(\"ordenC\", pm.response.json().orden._id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Cliente inexistente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente_id\": 99999,\n  \"ruta_id\": \"{{rutaId}}\",\n  \"total\": 50000,\n  \"medio_pago\": \"Tarjeta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: El cliente 99999 no existe\", () => pm.expect(pm.response.json().detail).to.include(\"El cliente 99999 no existe\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Ruta inexistente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente_id\": {{clienteId}},\n  \"ruta_id\": \"ruta_99999\",\n  \"total\": 50000,\n  \"medio_pago\": \"Tarjeta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: La ruta ruta_99999 no existe\", () => pm.expect(pm.response.json().detail).to.include(\"La ruta ruta_99999 no existe\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Total negativo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente_id\": {{clienteId}},\n  \"ruta_id\": \"{{rutaId}}\",\n  \"total\": -500,\n  \"medio_pago\": \"Tarjeta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: mayor que 0\", () => pm.expect(pm.response.json().detail).to.include(\"mayor que 0\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Total con texto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente_id\": {{clienteId}},\n  \"ruta_id\": \"{{rutaId}}\",\n  \"total\": \"abc\",\n  \"medio_pago\": \"Tarjeta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"Se informa el campo total\", () => pm.expect(pm.response.json().errores.map(e => e.campo)).to.include(\"total\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Medio de pago inválido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente_id\": {{clienteId}},\n  \"ruta_id\": \"{{rutaId}}\",\n  \"total\": 50000,\n  \"medio_pago\": \"Cheque\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: Medio de pago inválido\", () => pm.expect(pm.response.json().detail).to.include(\"Medio de pago inválido\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Falta un campo obligatorio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente_id\": {{clienteId}},\n  \"ruta_id\": \"{{rutaId}}\",\n  \"medio_pago\": \"Tarjeta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: Campo obligatorio\", () => pm.expect(pm.response.json().detail).to.include(\"Campo obligatorio\"));",
+                  "pm.test(\"Se informa el campo total\", () => pm.expect(pm.response.json().errores.map(e => e.campo)).to.include(\"total\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Campo no permitido (estado al crear)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente_id\": {{clienteId}},\n  \"ruta_id\": \"{{rutaId}}\",\n  \"total\": 50000,\n  \"medio_pago\": \"Tarjeta\",\n  \"estado\": \"Entregado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: Campo no permitido\", () => pm.expect(pm.response.json().detail).to.include(\"Campo no permitido\"));",
+                  "pm.test(\"Se informa el campo estado\", () => pm.expect(pm.response.json().errores.map(e => e.campo)).to.include(\"estado\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 JSON mal formado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"cliente_id\": 1, \"ruta_id\": ",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: JSON válido\", () => pm.expect(pm.response.json().detail).to.include(\"JSON válido\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Id de orden con formato inválido",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/pedido-1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "pedido-1"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: formato orden_\", () => pm.expect(pm.response.json().detail).to.include(\"formato orden_\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Intento de inyección NoSQL en el id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/%7B%22%24ne%22%3Anull%7D",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "%7B%22%24ne%22%3Anull%7D"
+              ]
+            },
+            "description": "El id {\"$ne\": null} se rechaza por formato: nunca llega a MongoDB como operador."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: formato orden_\", () => pm.expect(pm.response.json().detail).to.include(\"formato orden_\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Límite de paginación fuera de rango",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes?limite=500",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ],
+              "query": [
+                {
+                  "key": "limite",
+                  "value": "500"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: limite debe ser un entero entre 1 y 100\", () => pm.expect(pm.response.json().detail).to.include(\"limite debe ser un entero entre 1 y 100\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Parámetro con tipo incorrecto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes?limite=abc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ],
+              "query": [
+                {
+                  "key": "limite",
+                  "value": "abc"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"Se informa el campo limite\", () => pm.expect(pm.response.json().errores.map(e => e.campo)).to.include(\"limite\"));",
+                  "pm.test('Ubicación: parametro', () => pm.expect(pm.response.json().errores[0].ubicacion).to.eql('parametro'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Estado de filtro inválido",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes?estado=Perdido",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ],
+              "query": [
+                {
+                  "key": "estado",
+                  "value": "Perdido"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: Estado inválido\", () => pm.expect(pm.response.json().detail).to.include(\"Estado inválido\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Estado destino inválido",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenC}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenC}}",
+                "estado"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"Perdido\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: Estado inválido\", () => pm.expect(pm.response.json().detail).to.include(\"Estado inválido\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Puntaje fuera de rango",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/valoracion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "valoracion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"puntaje\": 9,\n  \"comentario\": \"Puntaje inválido\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: entre 1 y 5\", () => pm.expect(pm.response.json().detail).to.include(\"entre 1 y 5\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Puntaje decimal",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/valoracion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "valoracion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"puntaje\": 4.5,\n  \"comentario\": \"Puntaje decimal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"Se informa el campo puntaje\", () => pm.expect(pm.response.json().errores.map(e => e.campo)).to.include(\"puntaje\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "400 Id de cliente inválido",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clientes/abc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes",
+                "abc"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"codigo VALIDACION\", () => pm.expect(pm.response.json().codigo).to.eql(\"VALIDACION\"));",
+                  "pm.test(\"El detalle menciona: entero positivo\", () => pm.expect(pm.response.json().detail).to.include(\"entero positivo\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "404 Orden inexistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/orden_test_api_no_existe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "orden_test_api_no_existe"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"codigo NO_ENCONTRADO\", () => pm.expect(pm.response.json().codigo).to.eql(\"NO_ENCONTRADO\"));",
+                  "pm.test(\"El detalle menciona: no existe\", () => pm.expect(pm.response.json().detail).to.include(\"no existe\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "404 Cliente inexistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clientes/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes",
+                "999999"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"codigo NO_ENCONTRADO\", () => pm.expect(pm.response.json().codigo).to.eql(\"NO_ENCONTRADO\"));",
+                  "pm.test(\"El detalle menciona: 999999\", () => pm.expect(pm.response.json().detail).to.include(\"999999\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "404 Ruta inexistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/rutas/ruta_99999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "rutas",
+                "ruta_99999"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"codigo NO_ENCONTRADO\", () => pm.expect(pm.response.json().codigo).to.eql(\"NO_ENCONTRADO\"));",
+                  "pm.test(\"El detalle menciona: ruta_99999\", () => pm.expect(pm.response.json().detail).to.include(\"ruta_99999\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "404 Consulta inexistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/C99",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "C99"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"codigo NO_ENCONTRADO\", () => pm.expect(pm.response.json().codigo).to.eql(\"NO_ENCONTRADO\"));",
+                  "pm.test(\"El detalle menciona: Disponibles\", () => pm.expect(pm.response.json().detail).to.include(\"Disponibles\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "404 Endpoint inexistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/no-existe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "no-existe"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"codigo RUTA_NO_ENCONTRADA\", () => pm.expect(pm.response.json().codigo).to.eql(\"RUTA_NO_ENCONTRADA\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "405 Método no permitido",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"Entregado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 405\", () => pm.response.to.have.status(405));",
+                  "pm.test(\"codigo METODO_NO_PERMITIDO\", () => pm.expect(pm.response.json().codigo).to.eql(\"METODO_NO_PERMITIDO\"));",
+                  "pm.test(\"Cabecera Allow con los métodos válidos\", () => {",
+                  "    const allow = pm.response.headers.get('Allow');",
+                  "    pm.expect(allow).to.include('GET');",
+                  "    pm.expect(allow).to.include('DELETE');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "409 Id de orden duplicado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente_id\": {{clienteId}},\n  \"ruta_id\": \"{{rutaId}}\",\n  \"total\": 50000,\n  \"medio_pago\": \"Tarjeta\",\n  \"orden_id\": \"{{ordenA}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"codigo CONFLICTO\", () => pm.expect(pm.response.json().codigo).to.eql(\"CONFLICTO\"));",
+                  "pm.test(\"El detalle menciona: Ya existe la orden\", () => pm.expect(pm.response.json().detail).to.include(\"Ya existe la orden\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "409 Transición no permitida (Entregado -> En preparación)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "estado"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"En preparación\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"codigo CONFLICTO\", () => pm.expect(pm.response.json().codigo).to.eql(\"CONFLICTO\"));",
+                  "pm.test(\"El detalle menciona: Transición no permitida\", () => pm.expect(pm.response.json().detail).to.include(\"Transición no permitida\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "409 Saltar etapas (En preparación -> Entregado)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenC}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenC}}",
+                "estado"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"Entregado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"codigo CONFLICTO\", () => pm.expect(pm.response.json().codigo).to.eql(\"CONFLICTO\"));",
+                  "pm.test(\"El detalle menciona: Transición no permitida\", () => pm.expect(pm.response.json().detail).to.include(\"Transición no permitida\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "409 Corregir el total de una orden entregada",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/total",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "total"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"total\": 1000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"codigo CONFLICTO\", () => pm.expect(pm.response.json().codigo).to.eql(\"CONFLICTO\"));",
+                  "pm.test(\"El detalle menciona: No se puede corregir el total\", () => pm.expect(pm.response.json().detail).to.include(\"No se puede corregir el total\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "409 Valoración duplicada",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/valoracion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "valoracion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"puntaje\": 3,\n  \"comentario\": \"Segundo intento\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"codigo CONFLICTO\", () => pm.expect(pm.response.json().codigo).to.eql(\"CONFLICTO\"));",
+                  "pm.test(\"El detalle menciona: ya tiene una valoración\", () => pm.expect(pm.response.json().detail).to.include(\"ya tiene una valoración\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "409 Valorar una orden no entregada",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenC}}/valoracion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenC}}",
+                "valoracion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"puntaje\": 4,\n  \"comentario\": \"Aún no se entrega\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"codigo CONFLICTO\", () => pm.expect(pm.response.json().codigo).to.eql(\"CONFLICTO\"));",
+                  "pm.test(\"El detalle menciona: Solo se pueden valorar órdenes entregadas\", () => pm.expect(pm.response.json().detail).to.include(\"Solo se pueden valorar órdenes entregadas\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "409 Eliminar una orden entregada sin forzar",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"codigo CONFLICTO\", () => pm.expect(pm.response.json().codigo).to.eql(\"CONFLICTO\"));",
+                  "pm.test(\"El detalle menciona: No se puede eliminar\", () => pm.expect(pm.response.json().detail).to.include(\"No se puede eliminar\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Los rechazos no modificaron los datos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"La orden sigue igual\", () => {",
+                  "    pm.expect(json.estado).to.eql('Entregado');",
+                  "    pm.expect(json.total).to.eql(92500.5);",
+                  "    pm.expect(json.valoracion.puntaje).to.eql(5);",
+                  "    pm.expect(json.seguimiento.historial).to.have.lengthOf(3);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Trazabilidad: se respeta el X-Request-ID del cliente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Request-ID",
+                "value": "postman-{{sufijo}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/orden_test_api_no_existe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "orden_test_api_no_existe"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"codigo NO_ENCONTRADO\", () => pm.expect(pm.response.json().codigo).to.eql(\"NO_ENCONTRADO\"));",
+                  "pm.test(\"El id viaja en la cabecera y en el error\", () => {",
+                  "    const id = 'postman-' + pm.collectionVariables.get('sufijo');",
+                  "    pm.expect(pm.response.headers.get('X-Request-ID')).to.eql(id);",
+                  "    pm.expect(pm.response.json().id_solicitud).to.eql(id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 Integridad",
+      "description": "Auditoría y correcciones en modo simulación (no modifican los datos originales).",
+      "item": [
+        {
+          "name": "Auditoría con las órdenes de prueba",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/integridad/auditoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integridad",
+                "auditoria"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Las órdenes de prueba no agregan inconsistencias\", () => {",
+                  "    const base = JSON.parse(pm.collectionVariables.get('base_totales'));",
+                  "    pm.expect(json.totales.ordenes).to.eql(base.ordenes + 2);",
+                  "    pm.expect(json.totales.seguimientos).to.eql(base.seguimientos + 2);",
+                  "    pm.expect(json.totales.valoraciones).to.eql(base.valoraciones + 1);",
+                  "    const inconsistentes = json.detalle.seguimientos_inconsistentes;",
+                  "    pm.expect(inconsistentes).to.not.include(pm.collectionVariables.get('ordenA'));",
+                  "    pm.expect(inconsistentes).to.not.include(pm.collectionVariables.get('ordenC'));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Reparar seguimientos (simulación)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/integridad/seguimientos/reparar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integridad",
+                "seguimientos",
+                "reparar"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Detecta sin modificar\", () => {",
+                  "    const base = JSON.parse(pm.collectionVariables.get('base_resumen'));",
+                  "    pm.expect(json.ejecutado).to.be.false;",
+                  "    pm.expect(json.corregidos).to.eql(0);",
+                  "    pm.expect(json.detectados).to.eql(base.seguimientos_inconsistentes + base.ordenes_sin_seguimiento);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Depurar huérfanos (simulación)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/integridad/huerfanos/depurar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integridad",
+                "huerfanos",
+                "depurar"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('No ejecuta', () => pm.expect(pm.response.json().ejecutado).to.be.false);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sincronizar una orden ya consistente",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}/sincronizar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}",
+                "sincronizar"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Sin cambios\", () => {",
+                  "    pm.expect(json.corregido).to.be.false;",
+                  "    pm.expect(json.accion).to.eql('sin cambios');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "07 Limpieza",
+      "description": "Elimina las órdenes de prueba y comprueba que la base quedó como al inicio.",
+      "item": [
+        {
+          "name": "Eliminar la orden abierta de prueba",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenC}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenC}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test('Borra su seguimiento', () => pm.expect(pm.response.json().seguimientos_eliminados).to.eql(1));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Eliminar la orden entregada (forzar=true)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ordenes/{{ordenA}}?forzar=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ordenes",
+                "{{ordenA}}"
+              ],
+              "query": [
+                {
+                  "key": "forzar",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Borra seguimiento y valoración\", () => {",
+                  "    pm.expect(json.seguimientos_eliminados).to.eql(1);",
+                  "    pm.expect(json.valoraciones_eliminadas).to.eql(1);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "La base volvió a su estado inicial",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/integridad/auditoria",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "integridad",
+                "auditoria"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test(\"Mismos totales y mismas inconsistencias que al inicio\", () => {",
+                  "    pm.expect(json.totales).to.eql(JSON.parse(pm.collectionVariables.get('base_totales')));",
+                  "    pm.expect(json.resumen).to.eql(JSON.parse(pm.collectionVariables.get('base_resumen')));",
+                  "    pm.expect(json.detalle).to.eql(JSON.parse(pm.collectionVariables.get('base_detalle')));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

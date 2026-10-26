@@ -2,3 +2,6 @@ pymongo
 pandas
 seaborn
 matplotlib
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic-settings>=2.4

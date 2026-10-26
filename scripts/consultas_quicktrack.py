@@ -19,15 +19,20 @@ if not SALIDA_DIR.exists():
 DB_NAME = os.getenv("MONGO_DB", "QuickTrack")
 REPETICIONES = 5
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s",
-    handlers=[
-        logging.FileHandler(SALIDA_DIR / "consultas.log", encoding="utf-8"),
-        logging.StreamHandler(),
-    ],
-)
 log = logging.getLogger("consultas_quicktrack")
+
+
+def configurar_registro():
+    # Se configura al ejecutar el script, no al importarlo: la API reutiliza CONSULTAS
+    # y lleva su propio registro.
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)s | %(message)s",
+        handlers=[
+            logging.FileHandler(SALIDA_DIR / "consultas.log", encoding="utf-8"),
+            logging.StreamHandler(),
+        ],
+    )
 
 PROY_ORDEN = {"_id": 1, "cliente_id": 1, "estado": 1, "medio_pago": 1, "fecha_envio": 1, "total": 1}
 
@@ -338,6 +343,7 @@ def guardar_resumen(filas):
 
 
 def main():
+    configurar_registro()
     uri = os.getenv("MONGO_URI") or getpass.getpass("URI de conexión de MongoDB Atlas: ")
     cliente = None
     try:

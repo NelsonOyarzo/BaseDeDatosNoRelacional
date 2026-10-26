@@ -1,6 +1,6 @@
 """Operaciones CRUD de QuickTrack sobre MongoDB (IE7, IE8).
 
-Módulo reutilizable: lo usan demo_crud.py y, más adelante, la API REST.
+Módulo reutilizable: lo usan demo_crud.py y la API REST (carpeta api).
 Todas las funciones reciben la base de datos de pymongo (`db`) como primer
 parámetro y lanzan excepciones propias que la API puede traducir a HTTP:
 
@@ -24,7 +24,8 @@ import os
 import re
 from datetime import datetime, timezone
 
-from pymongo import DESCENDING, MongoClient
+from pymongo import ASCENDING, DESCENDING, MongoClient
+from pymongo.collation import Collation, CollationStrength
 from pymongo.errors import DuplicateKeyError, PyMongoError
 
 log = logging.getLogger("quicktrack_crud")
@@ -49,6 +50,10 @@ MEDIOS_PAGO = ("Tarjeta", "Efectivo", "Transferencia")
 
 RE_ORDEN = re.compile(r"orden_[A-Za-z0-9_]{1,40}")
 RE_RUTA = re.compile(r"ruta_[A-Za-z0-9_]{1,40}")
+
+# Filtros de texto sin distinguir mayúsculas ni tildes ("peru" = "Perú") y orden
+# numérico de los ids de texto (ruta_2 antes que ruta_10).
+COLACION_ES = Collation(locale="es", strength=CollationStrength.PRIMARY, numericOrdering=True)
 
 
 class QuickTrackError(Exception):
@@ -299,13 +304,18 @@ def leer_orden(db, orden_id, detalle=True):
     return orden
 
 
-def listar_ordenes(db, estado=None, cliente_id=None, limite=20, salto=0):
-    """Lista órdenes (más recientes primero) con filtros opcionales y paginación."""
+def _filtro_ordenes(estado=None, cliente_id=None):
     filtro = {}
     if estado is not None:
         filtro["estado"] = _validar_estado(estado)
     if cliente_id is not None:
         filtro["cliente_id"] = _validar_cliente_id(cliente_id)
+    return filtro
+
+
+def listar_ordenes(db, estado=None, cliente_id=None, limite=20, salto=0):
+    """Lista órdenes (más recientes primero) con filtros opcionales y paginación."""
+    filtro = _filtro_ordenes(estado, cliente_id)
     limite = _validar_entero(limite, "limite", 1, 100)
     salto = _validar_entero(salto, "salto", 0, 100000)
     cursor = (
@@ -316,6 +326,70 @@ def listar_ordenes(db, estado=None, cliente_id=None, limite=20, salto=0):
         .limit(limite)
     )
     return list(cursor)
+
+
+def contar_ordenes(db, estado=None, cliente_id=None):
+    """Cantidad de órdenes que cumplen los mismos filtros de listar_ordenes."""
+    return db[COL_ORDENES].count_documents(_filtro_ordenes(estado, cliente_id))
+
+
+# ------------------------------------------------------ lectura de catálogos
+def _validar_texto_filtro(valor, campo):
+    if not isinstance(valor, str) or not 1 <= len(valor.strip()) <= 80:
+        raise ValidacionError(f"{campo} debe ser un texto de 1 a 80 caracteres")
+    return valor.strip()
+
+
+def _filtro_por_campo(campo, valor):
+    return {} if valor is None else {campo: _validar_texto_filtro(valor, campo)}
+
+
+def _paginar(db, coleccion, filtro, limite, salto):
+    limite = _validar_entero(limite, "limite", 1, 100)
+    salto = _validar_entero(salto, "salto", 0, 100000)
+    cursor = (
+        db[coleccion]
+        .find(filtro)
+        .collation(COLACION_ES)
+        .sort("_id", ASCENDING)
+        .skip(salto)
+        .limit(limite)
+    )
+    return list(cursor)
+
+
+def leer_cliente(db, cliente_id):
+    cliente_id = _validar_cliente_id(cliente_id)
+    cliente = db[COL_CLIENTES].find_one({"_id": cliente_id})
+    if cliente is None:
+        raise NoEncontradoError(f"El cliente {cliente_id} no existe")
+    return cliente
+
+
+def listar_clientes(db, pais=None, limite=20, salto=0):
+    """Lista clientes por id; el filtro de país no distingue mayúsculas ni tildes."""
+    return _paginar(db, COL_CLIENTES, _filtro_por_campo("pais", pais), limite, salto)
+
+
+def contar_clientes(db, pais=None):
+    return db[COL_CLIENTES].count_documents(_filtro_por_campo("pais", pais), collation=COLACION_ES)
+
+
+def leer_ruta(db, ruta_id):
+    ruta_id = _validar_id_ruta(ruta_id)
+    ruta = db[COL_RUTAS].find_one({"_id": ruta_id})
+    if ruta is None:
+        raise NoEncontradoError(f"La ruta {ruta_id} no existe")
+    return ruta
+
+
+def listar_rutas(db, zona=None, limite=20, salto=0):
+    """Lista rutas por id (ruta_2 antes que ruta_10); el filtro de zona no distingue mayúsculas."""
+    return _paginar(db, COL_RUTAS, _filtro_por_campo("zona", zona), limite, salto)
+
+
+def contar_rutas(db, zona=None):
+    return db[COL_RUTAS].count_documents(_filtro_por_campo("zona", zona), collation=COLACION_ES)
 
 
 # -------------------------------------------------------------------- UPDATE
