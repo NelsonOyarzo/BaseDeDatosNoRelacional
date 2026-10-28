@@ -16,6 +16,7 @@ Configurar una base de datos MongoDB, cargar los datos operativos de QuickTrack 
 | Librerías | `pymongo`, `pandas`, `seaborn`, `matplotlib` |
 | API REST | FastAPI + Uvicorn, validación con Pydantic, configuración con `pydantic-settings` |
 | Pruebas de la API | Postman (colección y entorno en `postman/`) y Newman para ejecutarla por consola |
+| Interfaz web | HTML, CSS y JavaScript sin dependencias ni compilación, servida por la misma API |
 
 ## Estructura del repositorio
 
@@ -28,6 +29,7 @@ BaseDeDatosNoRelacional/
 ├─ datos/          archivos JSON originales
 ├─ scripts/        carga, consultas, índices, CRUD y diagnóstico
 ├─ api/            API REST (FastAPI) que reutiliza el CRUD y las consultas
+├─ interfaz/       interfaz web (aplicación externa) que consume la API
 ├─ postman/        colección y entorno de Postman con las pruebas de la API
 ├─ documentacion/  guías de configuración (archivo .env con la URI de Atlas)
 ├─ evidencias/     capturas, tiempos, índices, resultados del CRUD y registros (.log)
@@ -90,7 +92,7 @@ python scripts\demo_crud.py
 
 `demo_crud.py` es seguro de repetir: usa órdenes con prefijo `orden_test_` y las elimina al terminar, de modo que la base queda igual que antes (100 órdenes, 100 seguimientos, 100 valoraciones).
 
-### 4. Iniciar la API REST
+### 4. Iniciar la API y la interfaz web
 Desde la raíz del repositorio:
 
 ```
@@ -99,6 +101,7 @@ python -m api
 
 Toma la URI de `MONGO_URI` o del archivo `.env` (copiar `.env.example` como `.env` y completar; el paso a paso está en [`documentacion/configurar_env.md`](documentacion/configurar_env.md)); si no la encuentra, la pide igual que los scripts. Queda escuchando en `http://127.0.0.1:8000`:
 
+- Interfaz web: `http://127.0.0.1:8000/` (ver [Interfaz web](#interfaz-web)).
 - Documentación interactiva (Swagger UI): `http://127.0.0.1:8000/docs`, y ReDoc en `/redoc`.
 - Especificación OpenAPI: `http://127.0.0.1:8000/openapi.json` (se puede importar en Postman).
 - Registro de cada solicitud: `evidencias/api.log`.
@@ -188,6 +191,28 @@ Errores controlados, pensados para traducirse a códigos HTTP en la API:
 4. Detección y corrección de inconsistencias. En los datos originales se detectaron **96 seguimientos cuyo `estado_actual` no coincide con el estado de su orden**; el demo los reporta pero no los modifica (modo simulación) para no alterar los resultados de C11.
 
 Evidencias: `evidencias/crud.log` y `evidencias/crud_resultados.csv`.
+
+## Interfaz web
+
+La carpeta `interfaz/` es la aplicación externa que lee y escribe en MongoDB a través de la API. Son archivos estáticos (HTML, CSS y JavaScript, sin bibliotecas ni paso de compilación) que la misma API sirve en `http://127.0.0.1:8000/`, así que basta con `python -m api` para tener todo funcionando.
+
+| Sección | Qué muestra o permite |
+|---|---|
+| Resumen | Indicadores (órdenes, monto total y entregado, satisfacción, clientes, rutas) y gráficos de órdenes por estado, monto por zona, satisfacción por estado y evolución mensual, más los clientes y rutas principales. Sale de las consultas C4 a C10 |
+| Órdenes | Listado con filtros por estado y cliente, y paginación. Al abrir una orden se ve su cliente, ruta, seguimiento (historial) y valoración, con las acciones que permite su estado: avanzar, cancelar, corregir el total, valorar y eliminar. Botón **Nueva orden** |
+| Clientes | Listado con filtro por país; al abrir un cliente se ven sus órdenes y lo que suman |
+| Rutas | Catálogo con filtro por zona |
+| Consultas | Las 11 consultas del informe, ejecutadas en vivo, con su tiempo de respuesta |
+| Integridad | Auditoría de la base (huérfanos, órdenes sin cliente, ruta o seguimiento, y seguimientos desalineados) y una reparación en modo simulación |
+
+Detalles de presentación:
+- Montos en pesos con formato chileno (`$165.509,20`); en los indicadores y ejes, compactos (`$10,9 M`). Fechas en UTC, para que la fecha de envío no aparezca un día antes.
+- Cada orden se muestra con el nombre del cliente y el tramo de la ruta, no solo con sus ids.
+- Los gráficos usan un solo color de acento, rejilla tenue y un tooltip en cada barra o mes (también con el teclado). Cada gráfico enlaza a la consulta de la que sale, para ver los números en tabla.
+- Tema claro y oscuro (sigue al sistema; el botón de la barra superior lo cambia) y diseño adaptable a móvil.
+- Los errores de la API se muestran con su mensaje y su id de solicitud; en los formularios se marcan los campos con problemas.
+
+Los cambios hechos desde la interfaz se guardan en Atlas. Para demostraciones conviene crear una orden nueva y trabajar sobre ella; se puede eliminar al final mientras esté en preparación o cancelada.
 
 ## API REST (sección 6 del informe)
 

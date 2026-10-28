@@ -65,6 +65,8 @@ class MiddlewareTrazabilidad:
         finally:
             ruta = scope["path"] + (f"?{scope['query_string'].decode('latin-1')}" if scope["query_string"] else "")
             nivel = logging.ERROR if estado >= 500 else logging.WARNING if estado >= 400 else logging.INFO
+            if nivel == logging.INFO and scope["path"].startswith("/interfaz/"):
+                nivel = logging.DEBUG  # los archivos de la interfaz no llenan el log de evidencias
             cliente = scope["client"][0] if scope.get("client") else "-"
             log.log(nivel, "%s %s -> %d (%.1f ms) desde %s",
                     scope["method"], ruta, estado, (time.perf_counter() - inicio) * 1000, cliente)

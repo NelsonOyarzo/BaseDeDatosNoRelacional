@@ -1,14 +1,16 @@
 """Aplicación FastAPI de QuickTrack.
 
-Iniciar con `python -m api` (ver api/__main__.py). Documentación interactiva
-en /docs (Swagger UI) y /redoc; especificación OpenAPI en /openapi.json, que
-también se puede importar en Postman.
+Iniciar con `python -m api` (ver api/__main__.py). La interfaz web queda en /,
+la documentación interactiva en /docs (Swagger UI) y /redoc, y la
+especificación OpenAPI en /openapi.json, que también se puede importar en Postman.
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
-from api import PREFIJO, __version__
+from api import PREFIJO, RAIZ, __version__
 from api.config import obtener_ajustes
 from api.db import ciclo_de_vida
 from api.errores import registrar_manejadores
@@ -43,6 +45,8 @@ los campos `codigo` e `id_solicitud`. El catálogo completo está en
 Cada respuesta incluye `X-Request-ID` (se respeta el que envíe el cliente) y
 `X-Response-Time`. El mismo id aparece en cada línea de `evidencias/api.log`.
 """
+
+INTERFAZ = RAIZ / "interfaz"
 
 ETIQUETAS = [
     {"name": "General", "description": "Estado de la API y catálogo de errores"},
@@ -96,15 +100,13 @@ def crear_app() -> FastAPI:
                    consultas.router, integridad.router):
         app.include_router(router, prefix=PREFIJO)
 
+    # Interfaz web (carpeta interfaz/): la página en / y sus archivos bajo /interfaz.
+    # No se monta en / para no tapar los 404 y 405 de la API.
     @app.get("/", include_in_schema=False)
-    def raiz():
-        return {
-            "nombre": app.title,
-            "version": __version__,
-            "documentacion": "/docs",
-            "openapi": "/openapi.json",
-            "salud": f"{PREFIJO}/salud",
-        }
+    def interfaz():
+        return FileResponse(INTERFAZ / "index.html")
+
+    app.mount("/interfaz", StaticFiles(directory=INTERFAZ), name="interfaz")
 
     app.openapi = _openapi_sin_422(app)
     return app
