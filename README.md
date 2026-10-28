@@ -315,6 +315,8 @@ npm install -g newman newman-reporter-htmlextra
 newman run postman\QuickTrack.postman_collection.json -e postman\QuickTrack-local.postman_environment.json -r cli,htmlextra,junit --reporter-htmlextra-export evidencias\postman\reporte_newman.html --reporter-junit-export evidencias\postman\resultados_newman.xml
 ```
 
+**Resultado sobre Atlas (27-10-2026):** 81 solicitudes, 431 aserciones, 0 fallas, en 28.7 s (tiempo medio de respuesta 202 ms). Al terminar, la base quedó igual que al inicio. Evidencias: `evidencias/postman/reporte_newman.html` (reporte navegable), `evidencias/postman/resultados_newman.xml` (JUnit) y `evidencias/api.log` (registro de cada solicitud con su id).
+
 La colección es segura de repetir sobre Atlas: crea órdenes con prefijo `orden_test_api_` y las elimina al terminar. Si una ejecución se interrumpe a mitad, `python scripts\demo_crud.py` borra los restos (limpia todo lo que empiece con `orden_test_`).
 
 ## Limitaciones de los datos

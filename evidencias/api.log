@@ -1,0 +1,153 @@
+2026-10-27 20:58:53,017 | INFO | - | uvicorn.error | Started server process [18224]
+2026-10-27 20:58:53,017 | INFO | - | uvicorn.error | Waiting for application startup.
+2026-10-27 20:58:54,379 | INFO | - | quicktrack_api | Conectado a MongoDB, base QuickTrack con sus 5 colecciones
+2026-10-27 20:58:54,380 | INFO | - | uvicorn.error | Application startup complete.
+2026-10-27 20:58:54,381 | INFO | - | uvicorn.error | Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+2026-10-27 20:58:55,464 | INFO | d12a6f48c18e | quicktrack_api | GET /api/v1/salud -> 200 (107.0 ms) desde 127.0.0.1
+2026-10-27 20:58:59,714 | INFO | 3d94bd707b07 | quicktrack_api | GET /api/v1/salud -> 200 (85.2 ms) desde 127.0.0.1
+2026-10-27 20:59:00,662 | INFO | f32dd43ee115 | quicktrack_api | GET /api/v1/integridad/auditoria -> 200 (588.3 ms) desde 127.0.0.1
+2026-10-27 20:59:00,775 | INFO | ed254207d650 | quicktrack_api | GET /api/v1/errores -> 200 (1.9 ms) desde 127.0.0.1
+2026-10-27 20:59:01,031 | INFO | cf153d2671f2 | quicktrack_api | GET /api/v1/clientes?limite=5 -> 200 (180.2 ms) desde 127.0.0.1
+2026-10-27 20:59:01,349 | INFO | fa3384c5bd1e | quicktrack_api | GET /api/v1/clientes/1 -> 200 (90.2 ms) desde 127.0.0.1
+2026-10-27 20:59:01,479 | INFO | c35fd17d4f8d | quicktrack_api | GET /api/v1/clientes/cli_1 -> 200 (86.0 ms) desde 127.0.0.1
+2026-10-27 20:59:01,802 | INFO | 9e4d976552ec | quicktrack_api | GET /api/v1/clientes/1/ordenes?limite=100 -> 200 (266.3 ms) desde 127.0.0.1
+2026-10-27 20:59:02,223 | INFO | 633d2d362dc3 | quicktrack_api | GET /api/v1/rutas?limite=5 -> 200 (180.8 ms) desde 127.0.0.1
+2026-10-27 20:59:02,602 | INFO | 55b342f89d69 | quicktrack_api | GET /api/v1/rutas?zona=norte&limite=100 -> 200 (183.8 ms) desde 127.0.0.1
+2026-10-27 20:59:02,965 | INFO | 4c690c1de7d9 | quicktrack_api | GET /api/v1/rutas/ruta_1 -> 200 (85.7 ms) desde 127.0.0.1
+2026-10-27 20:59:03,197 | INFO | 0124f000f5b0 | quicktrack_api | GET /api/v1/ordenes?limite=10&salto=10 -> 200 (171.3 ms) desde 127.0.0.1
+2026-10-27 20:59:03,304 | INFO | 8b561470eb4a | quicktrack_api | GET /api/v1/consultas -> 200 (1.1 ms) desde 127.0.0.1
+2026-10-27 20:59:03,578 | INFO | d724398b0c85 | quicktrack_api | Consulta C1: 10 documentos en 85.1 ms
+2026-10-27 20:59:03,580 | INFO | d724398b0c85 | quicktrack_api | GET /api/v1/consultas/C1 -> 200 (92.9 ms) desde 127.0.0.1
+2026-10-27 20:59:03,936 | INFO | d1f56870d0f6 | quicktrack_api | Consulta C2: 4 documentos en 90.6 ms
+2026-10-27 20:59:03,937 | INFO | d1f56870d0f6 | quicktrack_api | GET /api/v1/consultas/C2 -> 200 (92.1 ms) desde 127.0.0.1
+2026-10-27 20:59:04,176 | INFO | da556c23ab59 | quicktrack_api | Consulta C3: 10 documentos en 84.7 ms
+2026-10-27 20:59:04,178 | INFO | da556c23ab59 | quicktrack_api | GET /api/v1/consultas/C3 -> 200 (90.6 ms) desde 127.0.0.1
+2026-10-27 20:59:04,489 | INFO | 0b9819dcdcfc | quicktrack_api | Consulta C4: 4 documentos en 87.2 ms
+2026-10-27 20:59:04,491 | INFO | 0b9819dcdcfc | quicktrack_api | GET /api/v1/consultas/C4 -> 200 (89.7 ms) desde 127.0.0.1
+2026-10-27 20:59:04,694 | INFO | 0bde2a4d1125 | quicktrack_api | Consulta C5: 5 documentos en 99.1 ms
+2026-10-27 20:59:04,695 | INFO | 0bde2a4d1125 | quicktrack_api | GET /api/v1/consultas/C5 -> 200 (100.5 ms) desde 127.0.0.1
+2026-10-27 20:59:04,976 | INFO | fa3ea3017e5c | quicktrack_api | Consulta C6: 5 documentos en 80.9 ms
+2026-10-27 20:59:04,977 | INFO | fa3ea3017e5c | quicktrack_api | GET /api/v1/consultas/C6 -> 200 (84.1 ms) desde 127.0.0.1
+2026-10-27 20:59:05,616 | INFO | 3c258a99df66 | quicktrack_api | Consulta C7: 5 documentos en 82.1 ms
+2026-10-27 20:59:05,617 | INFO | 3c258a99df66 | quicktrack_api | GET /api/v1/consultas/C7 -> 200 (84.1 ms) desde 127.0.0.1
+2026-10-27 20:59:05,781 | INFO | 60b3dd958542 | quicktrack_api | Consulta C8: 4 documentos en 90.4 ms
+2026-10-27 20:59:05,784 | INFO | 60b3dd958542 | quicktrack_api | GET /api/v1/consultas/C8 -> 200 (95.8 ms) desde 127.0.0.1
+2026-10-27 20:59:05,946 | INFO | 69526c12f494 | quicktrack_api | Consulta C9: 6 documentos en 83.7 ms
+2026-10-27 20:59:05,947 | INFO | 69526c12f494 | quicktrack_api | GET /api/v1/consultas/C9 -> 200 (86.9 ms) desde 127.0.0.1
+2026-10-27 20:59:06,152 | INFO | e805f6d69302 | quicktrack_api | Consulta C10: 30 documentos en 86.3 ms
+2026-10-27 20:59:06,155 | INFO | e805f6d69302 | quicktrack_api | GET /api/v1/consultas/C10 -> 200 (101.2 ms) desde 127.0.0.1
+2026-10-27 20:59:06,365 | INFO | 84253a670c7f | quicktrack_api | Consulta C11: 10 documentos en 95.3 ms
+2026-10-27 20:59:06,366 | INFO | 84253a670c7f | quicktrack_api | GET /api/v1/consultas/C11 -> 200 (99.1 ms) desde 127.0.0.1
+2026-10-27 20:59:06,516 | INFO | 31a224a9a1af | quicktrack_api | Consulta C4: 4 documentos en 81.1 ms
+2026-10-27 20:59:06,517 | INFO | 31a224a9a1af | quicktrack_api | GET /api/v1/consultas/c4 -> 200 (84.2 ms) desde 127.0.0.1
+2026-10-27 20:59:06,932 | INFO | bf8b3a19885c | quicktrack_crud | Orden orden_test_api_mvrck17l_a creada (cliente 1, ruta ruta_1, total 85000.00, Tarjeta)
+2026-10-27 20:59:06,936 | INFO | bf8b3a19885c | quicktrack_api | POST /api/v1/ordenes -> 201 (358.9 ms) desde 127.0.0.1
+2026-10-27 20:59:07,239 | INFO | 9714b53e5f38 | quicktrack_api | GET /api/v1/ordenes/orden_test_api_mvrck17l_a -> 200 (264.1 ms) desde 127.0.0.1
+2026-10-27 20:59:07,468 | INFO | f0d6a5310b51 | quicktrack_api | GET /api/v1/ordenes/orden_test_api_mvrck17l_a?detalle=false -> 200 (95.5 ms) desde 127.0.0.1
+2026-10-27 20:59:07,763 | INFO | 16a1a87e56d3 | quicktrack_api | GET /api/v1/ordenes?cliente_id=1&limite=100 -> 200 (175.9 ms) desde 127.0.0.1
+2026-10-27 20:59:07,978 | INFO | a7983ddbb3da | quicktrack_api | GET /api/v1/ordenes?estado=En%20preparaci%C3%B3n&limite=100 -> 200 (167.3 ms) desde 127.0.0.1
+2026-10-27 20:59:08,544 | INFO | 368183e68042 | quicktrack_crud | Orden orden_test_api_mvrck17l_a: En preparación -> En tránsito
+2026-10-27 20:59:08,546 | INFO | 368183e68042 | quicktrack_api | PATCH /api/v1/ordenes/orden_test_api_mvrck17l_a/estado -> 200 (280.4 ms) desde 127.0.0.1
+2026-10-27 20:59:08,844 | INFO | b6179d97cb1e | quicktrack_crud | Orden orden_test_api_mvrck17l_a: total 85000.00 -> 92500.50
+2026-10-27 20:59:08,853 | INFO | b6179d97cb1e | quicktrack_api | PATCH /api/v1/ordenes/orden_test_api_mvrck17l_a/total -> 200 (186.8 ms) desde 127.0.0.1
+2026-10-27 20:59:09,046 | INFO | 837a407efae2 | quicktrack_api | PATCH /api/v1/ordenes/orden_test_api_mvrck17l_a/total -> 200 (91.0 ms) desde 127.0.0.1
+2026-10-27 20:59:09,639 | INFO | 7180a46227d0 | quicktrack_crud | Orden orden_test_api_mvrck17l_a: En tránsito -> Entregado
+2026-10-27 20:59:09,640 | INFO | 7180a46227d0 | quicktrack_api | PATCH /api/v1/ordenes/orden_test_api_mvrck17l_a/estado -> 200 (278.1 ms) desde 127.0.0.1
+2026-10-27 20:59:10,084 | INFO | ed9300955180 | quicktrack_crud | Valoración de orden_test_api_mvrck17l_a registrada (puntaje 5)
+2026-10-27 20:59:10,088 | INFO | ed9300955180 | quicktrack_api | POST /api/v1/ordenes/orden_test_api_mvrck17l_a/valoracion -> 201 (205.4 ms) desde 127.0.0.1
+2026-10-27 20:59:10,679 | INFO | 4bed522698cd | quicktrack_api | GET /api/v1/ordenes/orden_test_api_mvrck17l_a/seguimiento -> 200 (278.5 ms) desde 127.0.0.1
+2026-10-27 20:59:11,458 | INFO | 341f518e1b7a | quicktrack_api | GET /api/v1/ordenes/orden_test_api_mvrck17l_a/consistencia -> 200 (516.8 ms) desde 127.0.0.1
+2026-10-27 20:59:12,448 | INFO | b5691bf1d9ee | quicktrack_crud | Orden orden_101 creada (cliente 1, ruta ruta_1, total 45000.00, Efectivo)
+2026-10-27 20:59:12,450 | INFO | b5691bf1d9ee | quicktrack_api | POST /api/v1/ordenes -> 201 (521.7 ms) desde 127.0.0.1
+2026-10-27 20:59:12,897 | INFO | 981cfebe47ff | quicktrack_crud | Orden orden_101: En preparación -> Cancelado
+2026-10-27 20:59:12,903 | INFO | 981cfebe47ff | quicktrack_api | PATCH /api/v1/ordenes/orden_101/estado -> 200 (278.6 ms) desde 127.0.0.1
+2026-10-27 20:59:13,508 | INFO | 59cb0ee616e1 | quicktrack_crud | Orden orden_101 eliminada (seguimientos: 1, valoraciones: 0)
+2026-10-27 20:59:13,511 | INFO | 59cb0ee616e1 | quicktrack_api | DELETE /api/v1/ordenes/orden_101 -> 200 (420.8 ms) desde 127.0.0.1
+2026-10-27 20:59:13,742 | WARNING | c03243c90b9d | quicktrack_api | 404 NO_ENCONTRADO: La orden orden_101 no existe
+2026-10-27 20:59:13,743 | WARNING | c03243c90b9d | quicktrack_api | GET /api/v1/ordenes/orden_101 -> 404 (84.5 ms) desde 127.0.0.1
+2026-10-27 20:59:14,678 | INFO | 51bb258f6867 | quicktrack_api | GET /api/v1/integridad/auditoria -> 200 (716.9 ms) desde 127.0.0.1
+2026-10-27 20:59:15,069 | INFO | 0f63c36d7e25 | quicktrack_crud | Orden orden_test_api_mvrck17l_c creada (cliente 1, ruta ruta_1, total 50000.00, Tarjeta)
+2026-10-27 20:59:15,074 | INFO | 0f63c36d7e25 | quicktrack_api | POST /api/v1/ordenes -> 201 (344.2 ms) desde 127.0.0.1
+2026-10-27 20:59:15,241 | WARNING | f03ee999275b | quicktrack_api | 400 VALIDACION: El cliente 99999 no existe
+2026-10-27 20:59:15,244 | WARNING | f03ee999275b | quicktrack_api | POST /api/v1/ordenes -> 400 (110.3 ms) desde 127.0.0.1
+2026-10-27 20:59:15,517 | WARNING | 62ae785a4733 | quicktrack_api | 400 VALIDACION: La ruta ruta_99999 no existe
+2026-10-27 20:59:15,518 | WARNING | 62ae785a4733 | quicktrack_api | POST /api/v1/ordenes -> 400 (170.0 ms) desde 127.0.0.1
+2026-10-27 20:59:15,716 | WARNING | c40605c4c4af | quicktrack_api | 400 VALIDACION: El total debe ser mayor que 0
+2026-10-27 20:59:15,716 | WARNING | c40605c4c4af | quicktrack_api | POST /api/v1/ordenes -> 400 (3.4 ms) desde 127.0.0.1
+2026-10-27 20:59:15,982 | WARNING | 400dd4def168 | quicktrack_api | 400 VALIDACION de formato: total: Debe ser un número
+2026-10-27 20:59:15,984 | WARNING | 400dd4def168 | quicktrack_api | POST /api/v1/ordenes -> 400 (3.4 ms) desde 127.0.0.1
+2026-10-27 20:59:16,139 | WARNING | c30c656b8abe | quicktrack_api | 400 VALIDACION: Medio de pago inválido. Opciones: Tarjeta, Efectivo, Transferencia
+2026-10-27 20:59:16,140 | WARNING | c30c656b8abe | quicktrack_api | POST /api/v1/ordenes -> 400 (4.6 ms) desde 127.0.0.1
+2026-10-27 20:59:16,197 | WARNING | a4c0a31c156f | quicktrack_api | 400 VALIDACION de formato: total: Campo obligatorio
+2026-10-27 20:59:16,198 | WARNING | a4c0a31c156f | quicktrack_api | POST /api/v1/ordenes -> 400 (1.6 ms) desde 127.0.0.1
+2026-10-27 20:59:16,313 | WARNING | fcd961b98125 | quicktrack_api | 400 VALIDACION de formato: estado: Campo no permitido
+2026-10-27 20:59:16,313 | WARNING | fcd961b98125 | quicktrack_api | POST /api/v1/ordenes -> 400 (3.0 ms) desde 127.0.0.1
+2026-10-27 20:59:16,364 | WARNING | 3ceab36daeea | quicktrack_api | 400 VALIDACION de formato: El cuerpo no es un JSON válido (revise cerca del carácter 29)
+2026-10-27 20:59:16,364 | WARNING | 3ceab36daeea | quicktrack_api | POST /api/v1/ordenes -> 400 (1.4 ms) desde 127.0.0.1
+2026-10-27 20:59:16,424 | WARNING | fc537d10c17d | quicktrack_api | 400 VALIDACION: El id de orden debe ser un texto con formato orden_<identificador>
+2026-10-27 20:59:16,426 | WARNING | fc537d10c17d | quicktrack_api | GET /api/v1/ordenes/pedido-1 -> 400 (2.3 ms) desde 127.0.0.1
+2026-10-27 20:59:16,651 | WARNING | 0a98f5e86fad | quicktrack_api | 400 VALIDACION: El id de orden debe ser un texto con formato orden_<identificador>
+2026-10-27 20:59:16,652 | WARNING | 0a98f5e86fad | quicktrack_api | GET /api/v1/ordenes/{"$ne":null} -> 400 (6.3 ms) desde 127.0.0.1
+2026-10-27 20:59:16,757 | WARNING | 30a54f618453 | quicktrack_api | 400 VALIDACION: limite debe ser un entero entre 1 y 100
+2026-10-27 20:59:16,761 | WARNING | 30a54f618453 | quicktrack_api | GET /api/v1/ordenes?limite=500 -> 400 (8.7 ms) desde 127.0.0.1
+2026-10-27 20:59:16,906 | WARNING | c2d3c41b89a7 | quicktrack_api | 400 VALIDACION de formato: limite: Debe ser un número entero
+2026-10-27 20:59:16,910 | WARNING | c2d3c41b89a7 | quicktrack_api | GET /api/v1/ordenes?limite=abc -> 400 (7.6 ms) desde 127.0.0.1
+2026-10-27 20:59:17,589 | WARNING | 67d0a1c95552 | quicktrack_api | 400 VALIDACION: Estado inválido. Opciones: En preparación, En tránsito, Entregado, Cancelado
+2026-10-27 20:59:17,591 | WARNING | 67d0a1c95552 | quicktrack_api | GET /api/v1/ordenes?estado=Perdido -> 400 (5.3 ms) desde 127.0.0.1
+2026-10-27 20:59:17,737 | WARNING | 45c420e022c3 | quicktrack_api | 400 VALIDACION: Estado inválido. Opciones: En preparación, En tránsito, Entregado, Cancelado
+2026-10-27 20:59:17,740 | WARNING | 45c420e022c3 | quicktrack_api | PATCH /api/v1/ordenes/orden_test_api_mvrck17l_c/estado -> 400 (4.9 ms) desde 127.0.0.1
+2026-10-27 20:59:17,827 | WARNING | ef06003d1ff5 | quicktrack_api | 400 VALIDACION: El puntaje debe ser un entero entre 1 y 5
+2026-10-27 20:59:17,828 | WARNING | ef06003d1ff5 | quicktrack_api | POST /api/v1/ordenes/orden_test_api_mvrck17l_a/valoracion -> 400 (7.5 ms) desde 127.0.0.1
+2026-10-27 20:59:17,992 | WARNING | f45fbe66d731 | quicktrack_api | 400 VALIDACION de formato: puntaje: Debe ser un número entero
+2026-10-27 20:59:17,994 | WARNING | f45fbe66d731 | quicktrack_api | POST /api/v1/ordenes/orden_test_api_mvrck17l_a/valoracion -> 400 (4.4 ms) desde 127.0.0.1
+2026-10-27 20:59:18,344 | WARNING | 8c95180f4979 | quicktrack_api | 400 VALIDACION: El id de cliente debe ser un entero positivo
+2026-10-27 20:59:18,345 | WARNING | 8c95180f4979 | quicktrack_api | GET /api/v1/clientes/abc -> 400 (2.6 ms) desde 127.0.0.1
+2026-10-27 20:59:18,576 | WARNING | 6a52adc3ca0e | quicktrack_api | 404 NO_ENCONTRADO: La orden orden_test_api_no_existe no existe
+2026-10-27 20:59:18,577 | WARNING | 6a52adc3ca0e | quicktrack_api | GET /api/v1/ordenes/orden_test_api_no_existe -> 404 (96.1 ms) desde 127.0.0.1
+2026-10-27 20:59:18,740 | WARNING | aa990b96e775 | quicktrack_api | 404 NO_ENCONTRADO: El cliente 999999 no existe
+2026-10-27 20:59:18,745 | WARNING | aa990b96e775 | quicktrack_api | GET /api/v1/clientes/999999 -> 404 (97.3 ms) desde 127.0.0.1
+2026-10-27 20:59:18,932 | WARNING | a36361f57518 | quicktrack_api | 404 NO_ENCONTRADO: La ruta ruta_99999 no existe
+2026-10-27 20:59:18,933 | WARNING | a36361f57518 | quicktrack_api | GET /api/v1/rutas/ruta_99999 -> 404 (96.4 ms) desde 127.0.0.1
+2026-10-27 20:59:19,104 | WARNING | f6a6d9b8c699 | quicktrack_api | 404 NO_ENCONTRADO: La consulta C99 no existe. Disponibles: C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11
+2026-10-27 20:59:19,105 | WARNING | f6a6d9b8c699 | quicktrack_api | GET /api/v1/consultas/C99 -> 404 (4.6 ms) desde 127.0.0.1
+2026-10-27 20:59:19,219 | WARNING | 6582695aa62a | quicktrack_api | 404 RUTA_NO_ENCONTRADA: No existe el endpoint GET /api/v1/no-existe
+2026-10-27 20:59:19,221 | WARNING | 6582695aa62a | quicktrack_api | GET /api/v1/no-existe -> 404 (2.4 ms) desde 127.0.0.1
+2026-10-27 20:59:19,692 | WARNING | 34385a8d7038 | quicktrack_api | 405 METODO_NO_PERMITIDO: El método PUT no está permitido en /api/v1/ordenes/orden_test_api_mvrck17l_a. Permitidos: GET, DELETE
+2026-10-27 20:59:19,697 | WARNING | 34385a8d7038 | quicktrack_api | PUT /api/v1/ordenes/orden_test_api_mvrck17l_a -> 405 (6.5 ms) desde 127.0.0.1
+2026-10-27 20:59:20,232 | WARNING | da0c69726b6c | quicktrack_crud | crear_orden: la orden orden_test_api_mvrck17l_a ya existe
+2026-10-27 20:59:20,233 | WARNING | da0c69726b6c | quicktrack_api | 409 CONFLICTO: Ya existe la orden orden_test_api_mvrck17l_a
+2026-10-27 20:59:20,234 | WARNING | da0c69726b6c | quicktrack_api | POST /api/v1/ordenes -> 409 (265.5 ms) desde 127.0.0.1
+2026-10-27 20:59:20,521 | WARNING | 74eabceb4c83 | quicktrack_crud | avanzar_estado: orden_test_api_mvrck17l_a no puede pasar de Entregado a En preparación
+2026-10-27 20:59:20,523 | WARNING | 74eabceb4c83 | quicktrack_api | 409 CONFLICTO: Transición no permitida: Entregado -> En preparación. Permitidas: ninguna (estado final)
+2026-10-27 20:59:20,524 | WARNING | 74eabceb4c83 | quicktrack_api | PATCH /api/v1/ordenes/orden_test_api_mvrck17l_a/estado -> 409 (99.3 ms) desde 127.0.0.1
+2026-10-27 20:59:20,731 | WARNING | 843fb7e4fe6c | quicktrack_crud | avanzar_estado: orden_test_api_mvrck17l_c no puede pasar de En preparación a Entregado
+2026-10-27 20:59:20,732 | WARNING | 843fb7e4fe6c | quicktrack_api | 409 CONFLICTO: Transición no permitida: En preparación -> Entregado. Permitidas: En tránsito, Cancelado
+2026-10-27 20:59:20,737 | WARNING | 843fb7e4fe6c | quicktrack_api | PATCH /api/v1/ordenes/orden_test_api_mvrck17l_c/estado -> 409 (98.4 ms) desde 127.0.0.1
+2026-10-27 20:59:21,019 | WARNING | 30f387f94d8c | quicktrack_crud | corregir_total: orden_test_api_mvrck17l_a está Entregado
+2026-10-27 20:59:21,022 | WARNING | 30f387f94d8c | quicktrack_api | 409 CONFLICTO: No se puede corregir el total de una orden Entregado
+2026-10-27 20:59:21,023 | WARNING | 30f387f94d8c | quicktrack_api | PATCH /api/v1/ordenes/orden_test_api_mvrck17l_a/total -> 409 (111.6 ms) desde 127.0.0.1
+2026-10-27 20:59:21,589 | WARNING | a139f384ae12 | quicktrack_crud | registrar_valoracion: la orden orden_test_api_mvrck17l_a ya tiene valoración
+2026-10-27 20:59:21,590 | WARNING | a139f384ae12 | quicktrack_api | 409 CONFLICTO: La orden orden_test_api_mvrck17l_a ya tiene una valoración
+2026-10-27 20:59:21,591 | WARNING | a139f384ae12 | quicktrack_api | POST /api/v1/ordenes/orden_test_api_mvrck17l_a/valoracion -> 409 (167.0 ms) desde 127.0.0.1
+2026-10-27 20:59:21,749 | WARNING | bade4fec2a20 | quicktrack_api | 409 CONFLICTO: Solo se pueden valorar órdenes entregadas (estado actual: En preparación)
+2026-10-27 20:59:21,750 | WARNING | bade4fec2a20 | quicktrack_api | POST /api/v1/ordenes/orden_test_api_mvrck17l_c/valoracion -> 409 (93.8 ms) desde 127.0.0.1
+2026-10-27 20:59:22,253 | WARNING | fad3f42c8bc3 | quicktrack_crud | eliminar_orden: orden_test_api_mvrck17l_a está Entregado y no se elimina
+2026-10-27 20:59:22,254 | WARNING | fad3f42c8bc3 | quicktrack_api | 409 CONFLICTO: No se puede eliminar una orden Entregado; solo canceladas o en preparación
+2026-10-27 20:59:22,254 | WARNING | fad3f42c8bc3 | quicktrack_api | DELETE /api/v1/ordenes/orden_test_api_mvrck17l_a -> 409 (93.5 ms) desde 127.0.0.1
+2026-10-27 20:59:22,735 | INFO | a57564cce5c8 | quicktrack_api | GET /api/v1/ordenes/orden_test_api_mvrck17l_a -> 200 (258.3 ms) desde 127.0.0.1
+2026-10-27 20:59:22,993 | WARNING | postman-mvrck17l | quicktrack_api | 404 NO_ENCONTRADO: La orden orden_test_api_no_existe no existe
+2026-10-27 20:59:22,994 | WARNING | postman-mvrck17l | quicktrack_api | GET /api/v1/ordenes/orden_test_api_no_existe -> 404 (82.7 ms) desde 127.0.0.1
+2026-10-27 20:59:23,868 | INFO | c6795110766a | quicktrack_api | GET /api/v1/integridad/auditoria -> 200 (788.8 ms) desde 127.0.0.1
+2026-10-27 20:59:24,722 | INFO | 98242f6efeb5 | quicktrack_api | POST /api/v1/integridad/seguimientos/reparar -> 200 (750.4 ms) desde 127.0.0.1
+2026-10-27 20:59:25,573 | INFO | 98412e1e58da | quicktrack_api | POST /api/v1/integridad/huerfanos/depurar -> 200 (711.1 ms) desde 127.0.0.1
+2026-10-27 20:59:26,122 | INFO | ec440d6a25f0 | quicktrack_api | POST /api/v1/ordenes/orden_test_api_mvrck17l_a/sincronizar -> 200 (209.6 ms) desde 127.0.0.1
+2026-10-27 20:59:26,552 | INFO | de77e95b7608 | quicktrack_crud | Orden orden_test_api_mvrck17l_c eliminada (seguimientos: 1, valoraciones: 0)
+2026-10-27 20:59:26,559 | INFO | de77e95b7608 | quicktrack_api | DELETE /api/v1/ordenes/orden_test_api_mvrck17l_c -> 200 (358.0 ms) desde 127.0.0.1
+2026-10-27 20:59:27,276 | INFO | 1a7cf4c5e257 | quicktrack_crud | Orden orden_test_api_mvrck17l_a eliminada (seguimientos: 1, valoraciones: 1)
+2026-10-27 20:59:27,278 | INFO | 1a7cf4c5e257 | quicktrack_api | DELETE /api/v1/ordenes/orden_test_api_mvrck17l_a?forzar=true -> 200 (402.0 ms) desde 127.0.0.1
+2026-10-27 20:59:27,839 | INFO | 97b3be92c098 | quicktrack_api | GET /api/v1/integridad/auditoria -> 200 (517.4 ms) desde 127.0.0.1
+2026-10-27 20:59:29,626 | INFO | - | uvicorn.error | Shutting down
+2026-10-27 20:59:29,728 | INFO | - | uvicorn.error | Waiting for application shutdown.
+2026-10-27 20:59:29,808 | INFO | - | quicktrack_api | Conexión con MongoDB cerrada
+2026-10-27 20:59:29,809 | INFO | - | uvicorn.error | Application shutdown complete.
+2026-10-27 20:59:29,809 | INFO | - | uvicorn.error | Finished server process [18224]

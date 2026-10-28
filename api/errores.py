@@ -171,20 +171,32 @@ async def _validacion_solicitud(request, error: RequestValidationError):
     return respuesta_problema(request, "VALIDACION", detalle, errores=errores)
 
 
+METODOS_HTTP = ("GET", "HEAD", "POST", "PUT", "PATCH", "DELETE")
+
+
+def _metodos_permitidos(request):
+    """Métodos que admite la URL pedida.
+
+    El 405 de FastAPI solo informa los métodos de la primera ruta que coincide
+    (/ordenes/{id} tiene GET y DELETE en rutas distintas), así que se prueba cada
+    método contra todas las rutas, incluidas las de los routers anidados.
+    """
+    permitidos = []
+    for metodo in METODOS_HTTP:
+        alcance = {"type": "http", "method": metodo, "path": request.scope["path"],
+                   "root_path": request.scope.get("root_path", ""), "headers": [], "query_string": b""}
+        if any(ruta.matches(alcance)[0] == Match.FULL for ruta in request.app.router.routes):
+            permitidos.append(metodo)
+    return permitidos
+
+
 async def _http(request, error: StarletteHTTPException):
     if error.status_code == 404:
         detalle = f"No existe el endpoint {request.method} {request.url.path}"
         log.warning("404 RUTA_NO_ENCONTRADA: %s", detalle)
         return respuesta_problema(request, "RUTA_NO_ENCONTRADA", detalle)
     if error.status_code == 405:
-        # Starlette solo informa los métodos de la primera ruta que coincide con la URL
-        # (/ordenes/{id} tiene GET y DELETE en rutas distintas): se juntan todos.
-        permitidos = ", ".join(sorted({
-            metodo
-            for ruta in request.app.router.routes
-            if ruta.matches(request.scope)[0] != Match.NONE
-            for metodo in getattr(ruta, "methods", None) or ()
-        }))
+        permitidos = ", ".join(_metodos_permitidos(request))
         detalle = f"El método {request.method} no está permitido en {request.url.path}. Permitidos: {permitidos}"
         log.warning("405 METODO_NO_PERMITIDO: %s", detalle)
         return respuesta_problema(request, "METODO_NO_PERMITIDO", detalle, cabeceras={"Allow": permitidos})

@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="QuickTrack API" tests="81" time="16.434">
+  <testsuite name="00 Preparación / Salud de la API y de la base" id="8b1937f9-603b-4e19-b8d4-7e7827ac15b3" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.360">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.360" classname="00PreparacionSaludDeLaApiYDeLaBase"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.360" classname="00PreparacionSaludDeLaApiYDeLaBase"/>
+    <testcase name="HTTP 200" time="0.360" classname="00PreparacionSaludDeLaApiYDeLaBase"/>
+    <testcase name="API ok y base conectada" time="0.360" classname="00PreparacionSaludDeLaApiYDeLaBase"/>
+  </testsuite>
+  <testsuite name="00 Preparación / Auditoría inicial (estado de referencia)" id="1bc4c11d-231e-4b43-9dcc-1f6c6005f002" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.618">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.618" classname="00PreparacionAuditoriaInicialEstadoDeReferencia"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.618" classname="00PreparacionAuditoriaInicialEstadoDeReferencia"/>
+    <testcase name="HTTP 200" time="0.618" classname="00PreparacionAuditoriaInicialEstadoDeReferencia"/>
+    <testcase name="Trae totales y resumen" time="0.618" classname="00PreparacionAuditoriaInicialEstadoDeReferencia"/>
+  </testsuite>
+  <testsuite name="00 Preparación / Catálogo de errores" id="d48175e9-91c4-47d6-8c02-f36a6927502b" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.009">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.009" classname="00PreparacionCatalogoDeErrores"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.009" classname="00PreparacionCatalogoDeErrores"/>
+    <testcase name="HTTP 200" time="0.009" classname="00PreparacionCatalogoDeErrores"/>
+    <testcase name="Incluye los códigos principales" time="0.009" classname="00PreparacionCatalogoDeErrores"/>
+  </testsuite>
+  <testsuite name="01 Catálogos / Listar clientes (paginado)" id="9747eaad-bd8a-4523-83e3-9ba3a45d1f77" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.194">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.194" classname="01CatalogosListarClientesPaginado"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.194" classname="01CatalogosListarClientesPaginado"/>
+    <testcase name="HTTP 200" time="0.194" classname="01CatalogosListarClientesPaginado"/>
+    <testcase name="Página de 5 clientes con id numérico" time="0.194" classname="01CatalogosListarClientesPaginado"/>
+  </testsuite>
+  <testsuite name="01 Catálogos / Leer un cliente" id="cd3862fc-fb32-4006-bde0-b417353c9075" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.094">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.094" classname="01CatalogosLeerUnCliente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.094" classname="01CatalogosLeerUnCliente"/>
+    <testcase name="HTTP 200" time="0.094" classname="01CatalogosLeerUnCliente"/>
+    <testcase name="Es el cliente pedido" time="0.094" classname="01CatalogosLeerUnCliente"/>
+  </testsuite>
+  <testsuite name="01 Catálogos / Leer un cliente con prefijo cli_" id="7e437631-8360-4ccd-a2ba-4b590ffa0183" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.090">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.090" classname="01CatalogosLeerUnClienteConPrefijoCli"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.090" classname="01CatalogosLeerUnClienteConPrefijoCli"/>
+    <testcase name="HTTP 200" time="0.090" classname="01CatalogosLeerUnClienteConPrefijoCli"/>
+    <testcase name="Acepta el formato cli_&lt;id>" time="0.090" classname="01CatalogosLeerUnClienteConPrefijoCli"/>
+  </testsuite>
+  <testsuite name="01 Catálogos / Órdenes de un cliente" id="48dd759c-8ac3-4e14-994b-f556936b7180" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.336">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.336" classname="01CatalogosOrdenesDeUnCliente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.336" classname="01CatalogosOrdenesDeUnCliente"/>
+    <testcase name="HTTP 200" time="0.336" classname="01CatalogosOrdenesDeUnCliente"/>
+    <testcase name="Todas son del cliente" time="0.336" classname="01CatalogosOrdenesDeUnCliente"/>
+  </testsuite>
+  <testsuite name="01 Catálogos / Listar rutas (orden numérico)" id="d9cd6624-9e1f-486d-af57-c38c0f60e123" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.205">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.205" classname="01CatalogosListarRutasOrdenNumerico"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.205" classname="01CatalogosListarRutasOrdenNumerico"/>
+    <testcase name="HTTP 200" time="0.205" classname="01CatalogosListarRutasOrdenNumerico"/>
+    <testcase name="Ids en orden numérico (ruta_2 antes que ruta_10)" time="0.205" classname="01CatalogosListarRutasOrdenNumerico"/>
+  </testsuite>
+  <testsuite name="01 Catálogos / Filtrar rutas por zona sin distinguir mayúsculas" id="e29c67ce-9f81-49e9-9867-a922082de1b7" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.270">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.270" classname="01CatalogosFiltrarRutasPorZonaSinDistinguirMayusculas"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.270" classname="01CatalogosFiltrarRutasPorZonaSinDistinguirMayusculas"/>
+    <testcase name="HTTP 200" time="0.270" classname="01CatalogosFiltrarRutasPorZonaSinDistinguirMayusculas"/>
+    <testcase name="Solo rutas de la zona Norte" time="0.270" classname="01CatalogosFiltrarRutasPorZonaSinDistinguirMayusculas"/>
+  </testsuite>
+  <testsuite name="01 Catálogos / Leer una ruta" id="9c9fda7d-fc14-429a-bb70-48afed1d2592" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.090">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.090" classname="01CatalogosLeerUnaRuta"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.090" classname="01CatalogosLeerUnaRuta"/>
+    <testcase name="HTTP 200" time="0.090" classname="01CatalogosLeerUnaRuta"/>
+    <testcase name="Es la ruta pedida" time="0.090" classname="01CatalogosLeerUnaRuta"/>
+  </testsuite>
+  <testsuite name="01 Catálogos / Paginación de órdenes" id="beaec53a-3743-4b2b-91b2-161b1b77bfd2" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.174">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.174" classname="01CatalogosPaginacionDeOrdenes"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.174" classname="01CatalogosPaginacionDeOrdenes"/>
+    <testcase name="HTTP 200" time="0.174" classname="01CatalogosPaginacionDeOrdenes"/>
+    <testcase name="Segunda página, más recientes primero" time="0.174" classname="01CatalogosPaginacionDeOrdenes"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Listar consultas disponibles" id="4a08bacd-66ad-44ac-97e7-f1757b0b25bb" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.005">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.005" classname="02ConsultasDeAnalisisListarConsultasDisponibles"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.005" classname="02ConsultasDeAnalisisListarConsultasDisponibles"/>
+    <testcase name="HTTP 200" time="0.005" classname="02ConsultasDeAnalisisListarConsultasDisponibles"/>
+    <testcase name="Son las 11 consultas del informe" time="0.005" classname="02ConsultasDeAnalisisListarConsultasDisponibles"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta C1" id="0167e8e9-5eb5-4831-84ce-52c14047ea00" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.096">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.096" classname="02ConsultasDeAnalisisConsultaC1"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.096" classname="02ConsultasDeAnalisisConsultaC1"/>
+    <testcase name="HTTP 200" time="0.096" classname="02ConsultasDeAnalisisConsultaC1"/>
+    <testcase name="Resultado con tiempo medido" time="0.096" classname="02ConsultasDeAnalisisConsultaC1"/>
+    <testcase name="Los resultados cumplen el requerimiento de C1" time="0.096" classname="02ConsultasDeAnalisisConsultaC1"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta C2" id="92a17967-ce58-4888-8a9b-5775222690d6" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.108">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.108" classname="02ConsultasDeAnalisisConsultaC2"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.108" classname="02ConsultasDeAnalisisConsultaC2"/>
+    <testcase name="HTTP 200" time="0.108" classname="02ConsultasDeAnalisisConsultaC2"/>
+    <testcase name="Resultado con tiempo medido" time="0.108" classname="02ConsultasDeAnalisisConsultaC2"/>
+    <testcase name="Los resultados cumplen el requerimiento de C2" time="0.108" classname="02ConsultasDeAnalisisConsultaC2"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta C3" id="6d1bdbb9-f7af-4931-9531-5d3634e61975" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.112">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.112" classname="02ConsultasDeAnalisisConsultaC3"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.112" classname="02ConsultasDeAnalisisConsultaC3"/>
+    <testcase name="HTTP 200" time="0.112" classname="02ConsultasDeAnalisisConsultaC3"/>
+    <testcase name="Resultado con tiempo medido" time="0.112" classname="02ConsultasDeAnalisisConsultaC3"/>
+    <testcase name="Los resultados cumplen el requerimiento de C3" time="0.112" classname="02ConsultasDeAnalisisConsultaC3"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta C4" id="5ae2d9f1-4e4e-47c5-990e-6836132eaa02" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.095">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.095" classname="02ConsultasDeAnalisisConsultaC4"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.095" classname="02ConsultasDeAnalisisConsultaC4"/>
+    <testcase name="HTTP 200" time="0.095" classname="02ConsultasDeAnalisisConsultaC4"/>
+    <testcase name="Resultado con tiempo medido" time="0.095" classname="02ConsultasDeAnalisisConsultaC4"/>
+    <testcase name="Los resultados cumplen el requerimiento de C4" time="0.095" classname="02ConsultasDeAnalisisConsultaC4"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta C5" id="42eda641-7384-44f7-82b0-6502418b46f0" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.141">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.141" classname="02ConsultasDeAnalisisConsultaC5"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.141" classname="02ConsultasDeAnalisisConsultaC5"/>
+    <testcase name="HTTP 200" time="0.141" classname="02ConsultasDeAnalisisConsultaC5"/>
+    <testcase name="Resultado con tiempo medido" time="0.141" classname="02ConsultasDeAnalisisConsultaC5"/>
+    <testcase name="Los resultados cumplen el requerimiento de C5" time="0.141" classname="02ConsultasDeAnalisisConsultaC5"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta C6" id="28180d3e-9a26-405d-ba1e-82e795a7f3bc" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.154">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.154" classname="02ConsultasDeAnalisisConsultaC6"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.154" classname="02ConsultasDeAnalisisConsultaC6"/>
+    <testcase name="HTTP 200" time="0.154" classname="02ConsultasDeAnalisisConsultaC6"/>
+    <testcase name="Resultado con tiempo medido" time="0.154" classname="02ConsultasDeAnalisisConsultaC6"/>
+    <testcase name="Los resultados cumplen el requerimiento de C6" time="0.154" classname="02ConsultasDeAnalisisConsultaC6"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta C7" id="23037fb0-abd3-44f5-97a9-e77ef7cf08b4" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.093">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.093" classname="02ConsultasDeAnalisisConsultaC7"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.093" classname="02ConsultasDeAnalisisConsultaC7"/>
+    <testcase name="HTTP 200" time="0.093" classname="02ConsultasDeAnalisisConsultaC7"/>
+    <testcase name="Resultado con tiempo medido" time="0.093" classname="02ConsultasDeAnalisisConsultaC7"/>
+    <testcase name="Los resultados cumplen el requerimiento de C7" time="0.093" classname="02ConsultasDeAnalisisConsultaC7"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta C8" id="d9b4d548-a185-47cf-bac4-908d9421a02c" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.106">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.106" classname="02ConsultasDeAnalisisConsultaC8"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.106" classname="02ConsultasDeAnalisisConsultaC8"/>
+    <testcase name="HTTP 200" time="0.106" classname="02ConsultasDeAnalisisConsultaC8"/>
+    <testcase name="Resultado con tiempo medido" time="0.106" classname="02ConsultasDeAnalisisConsultaC8"/>
+    <testcase name="Los resultados cumplen el requerimiento de C8" time="0.106" classname="02ConsultasDeAnalisisConsultaC8"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta C9" id="6b82dcc8-44b6-4670-9079-953e6006c3fc" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.097">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.097" classname="02ConsultasDeAnalisisConsultaC9"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.097" classname="02ConsultasDeAnalisisConsultaC9"/>
+    <testcase name="HTTP 200" time="0.097" classname="02ConsultasDeAnalisisConsultaC9"/>
+    <testcase name="Resultado con tiempo medido" time="0.097" classname="02ConsultasDeAnalisisConsultaC9"/>
+    <testcase name="Los resultados cumplen el requerimiento de C9" time="0.097" classname="02ConsultasDeAnalisisConsultaC9"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta C10" id="2fb5a990-9fe2-4daf-a409-2c83354bb1e3" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.107">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.107" classname="02ConsultasDeAnalisisConsultaC10"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.107" classname="02ConsultasDeAnalisisConsultaC10"/>
+    <testcase name="HTTP 200" time="0.107" classname="02ConsultasDeAnalisisConsultaC10"/>
+    <testcase name="Resultado con tiempo medido" time="0.107" classname="02ConsultasDeAnalisisConsultaC10"/>
+    <testcase name="Los resultados cumplen el requerimiento de C10" time="0.107" classname="02ConsultasDeAnalisisConsultaC10"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta C11" id="a61c4551-ecbc-4113-ab83-448aec9d21bc" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.104">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.104" classname="02ConsultasDeAnalisisConsultaC11"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.104" classname="02ConsultasDeAnalisisConsultaC11"/>
+    <testcase name="HTTP 200" time="0.104" classname="02ConsultasDeAnalisisConsultaC11"/>
+    <testcase name="Resultado con tiempo medido" time="0.104" classname="02ConsultasDeAnalisisConsultaC11"/>
+    <testcase name="Los resultados cumplen el requerimiento de C11" time="0.104" classname="02ConsultasDeAnalisisConsultaC11"/>
+  </testsuite>
+  <testsuite name="02 Consultas de análisis / Consulta con id en minúsculas" id="31911463-d206-4262-a21a-2809fa07d786" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.087">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.087" classname="02ConsultasDeAnalisisConsultaConIdEnMinusculas"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.087" classname="02ConsultasDeAnalisisConsultaConIdEnMinusculas"/>
+    <testcase name="HTTP 200" time="0.087" classname="02ConsultasDeAnalisisConsultaConIdEnMinusculas"/>
+    <testcase name="Normaliza el id" time="0.087" classname="02ConsultasDeAnalisisConsultaConIdEnMinusculas"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / Crear orden" id="8a56f17c-1d17-44eb-bd26-0a096d3a9469" timestamp="2026-10-27T23:58:59.288Z" tests="5" failures="0" errors="0" time="0.363">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.363" classname="03CicloDeVidaDeUnaOrdenCrearOrden"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.363" classname="03CicloDeVidaDeUnaOrdenCrearOrden"/>
+    <testcase name="HTTP 201" time="0.363" classname="03CicloDeVidaDeUnaOrdenCrearOrden"/>
+    <testcase name="Nace En preparación con su seguimiento" time="0.363" classname="03CicloDeVidaDeUnaOrdenCrearOrden"/>
+    <testcase name="Cabecera Location apunta a la orden" time="0.363" classname="03CicloDeVidaDeUnaOrdenCrearOrden"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / Leer la orden con detalle" id="e63a6d0e-19e7-407f-9b1d-f6775a3f43eb" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.267">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.267" classname="03CicloDeVidaDeUnaOrdenLeerLaOrdenConDetalle"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.267" classname="03CicloDeVidaDeUnaOrdenLeerLaOrdenConDetalle"/>
+    <testcase name="HTTP 200" time="0.267" classname="03CicloDeVidaDeUnaOrdenLeerLaOrdenConDetalle"/>
+    <testcase name="Incluye seguimiento y aún no tiene valoración" time="0.267" classname="03CicloDeVidaDeUnaOrdenLeerLaOrdenConDetalle"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / Leer la orden sin detalle" id="052a6470-b70f-4a91-a76b-112ac47a34af" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.113">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.113" classname="03CicloDeVidaDeUnaOrdenLeerLaOrdenSinDetalle"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.113" classname="03CicloDeVidaDeUnaOrdenLeerLaOrdenSinDetalle"/>
+    <testcase name="HTTP 200" time="0.113" classname="03CicloDeVidaDeUnaOrdenLeerLaOrdenSinDetalle"/>
+    <testcase name="Solo los campos de la orden" time="0.113" classname="03CicloDeVidaDeUnaOrdenLeerLaOrdenSinDetalle"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / La orden aparece en el listado del cliente" id="a42bd179-d196-4fc5-b3f1-a879f52036c4" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.185">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.185" classname="03CicloDeVidaDeUnaOrdenLaOrdenApareceEnElListadoDelCliente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.185" classname="03CicloDeVidaDeUnaOrdenLaOrdenApareceEnElListadoDelCliente"/>
+    <testcase name="HTTP 200" time="0.185" classname="03CicloDeVidaDeUnaOrdenLaOrdenApareceEnElListadoDelCliente"/>
+    <testcase name="Contiene la orden creada" time="0.185" classname="03CicloDeVidaDeUnaOrdenLaOrdenApareceEnElListadoDelCliente"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / Filtrar órdenes por estado" id="104e8d0e-d0f9-4cb7-b5b4-2de6694cd2a4" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.177">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.177" classname="03CicloDeVidaDeUnaOrdenFiltrarOrdenesPorEstado"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.177" classname="03CicloDeVidaDeUnaOrdenFiltrarOrdenesPorEstado"/>
+    <testcase name="HTTP 200" time="0.177" classname="03CicloDeVidaDeUnaOrdenFiltrarOrdenesPorEstado"/>
+    <testcase name="Todas En preparación, incluida la nueva" time="0.177" classname="03CicloDeVidaDeUnaOrdenFiltrarOrdenesPorEstado"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / Avanzar a En tránsito" id="4368c154-735e-4c26-853e-db6a6309871f" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.292">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.292" classname="03CicloDeVidaDeUnaOrdenAvanzarAEnTransito"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.292" classname="03CicloDeVidaDeUnaOrdenAvanzarAEnTransito"/>
+    <testcase name="HTTP 200" time="0.292" classname="03CicloDeVidaDeUnaOrdenAvanzarAEnTransito"/>
+    <testcase name="Cambio registrado" time="0.292" classname="03CicloDeVidaDeUnaOrdenAvanzarAEnTransito"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / Corregir el total" id="573b761f-b0ee-4957-adbb-901cea68fa0b" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.237">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.237" classname="03CicloDeVidaDeUnaOrdenCorregirElTotal"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.237" classname="03CicloDeVidaDeUnaOrdenCorregirElTotal"/>
+    <testcase name="HTTP 200" time="0.237" classname="03CicloDeVidaDeUnaOrdenCorregirElTotal"/>
+    <testcase name="Total modificado" time="0.237" classname="03CicloDeVidaDeUnaOrdenCorregirElTotal"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / Corregir con el mismo total (idempotente)" id="c949aa8a-fe5b-4fc9-9723-f2fb69827e10" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.105">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.105" classname="03CicloDeVidaDeUnaOrdenCorregirConElMismoTotalIdempotente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.105" classname="03CicloDeVidaDeUnaOrdenCorregirConElMismoTotalIdempotente"/>
+    <testcase name="HTTP 200" time="0.105" classname="03CicloDeVidaDeUnaOrdenCorregirConElMismoTotalIdempotente"/>
+    <testcase name="No modifica nada" time="0.105" classname="03CicloDeVidaDeUnaOrdenCorregirConElMismoTotalIdempotente"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / Avanzar a Entregado" id="ccd3bbba-94e4-49cf-a2db-24027cf31a44" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.332">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.332" classname="03CicloDeVidaDeUnaOrdenAvanzarAEntregado"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.332" classname="03CicloDeVidaDeUnaOrdenAvanzarAEntregado"/>
+    <testcase name="HTTP 200" time="0.332" classname="03CicloDeVidaDeUnaOrdenAvanzarAEntregado"/>
+    <testcase name="Queda Entregado" time="0.332" classname="03CicloDeVidaDeUnaOrdenAvanzarAEntregado"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / Registrar la valoración" id="d458647b-327e-4272-9f19-586124cf1fd5" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.222">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.222" classname="03CicloDeVidaDeUnaOrdenRegistrarLaValoracion"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.222" classname="03CicloDeVidaDeUnaOrdenRegistrarLaValoracion"/>
+    <testcase name="HTTP 201" time="0.222" classname="03CicloDeVidaDeUnaOrdenRegistrarLaValoracion"/>
+    <testcase name="Valoración guardada" time="0.222" classname="03CicloDeVidaDeUnaOrdenRegistrarLaValoracion"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / Seguimiento con el historial completo" id="10cb0ffd-8e29-416b-90e1-35aeae637e7e" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.300">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.300" classname="03CicloDeVidaDeUnaOrdenSeguimientoConElHistorialCompleto"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.300" classname="03CicloDeVidaDeUnaOrdenSeguimientoConElHistorialCompleto"/>
+    <testcase name="HTTP 200" time="0.300" classname="03CicloDeVidaDeUnaOrdenSeguimientoConElHistorialCompleto"/>
+    <testcase name="Registra cada cambio de estado" time="0.300" classname="03CicloDeVidaDeUnaOrdenSeguimientoConElHistorialCompleto"/>
+  </testsuite>
+  <testsuite name="03 Ciclo de vida de una orden / La orden es consistente de punta a punta" id="85ca4052-a117-4f0d-bbca-339fec457df2" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.590">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.590" classname="03CicloDeVidaDeUnaOrdenLaOrdenEsConsistenteDePuntaAPunta"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.590" classname="03CicloDeVidaDeUnaOrdenLaOrdenEsConsistenteDePuntaAPunta"/>
+    <testcase name="HTTP 200" time="0.590" classname="03CicloDeVidaDeUnaOrdenLaOrdenEsConsistenteDePuntaAPunta"/>
+    <testcase name="Sin problemas" time="0.590" classname="03CicloDeVidaDeUnaOrdenLaOrdenEsConsistenteDePuntaAPunta"/>
+  </testsuite>
+  <testsuite name="04 Cancelación y eliminación / Crear orden con id automático y fecha propia" id="8cf599f4-a8c7-4cba-963d-8eaedbe045ce" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.712">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.712" classname="04CancelacionYEliminacionCrearOrdenConIdAutomaticoYFechaPropia"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.712" classname="04CancelacionYEliminacionCrearOrdenConIdAutomaticoYFechaPropia"/>
+    <testcase name="HTTP 201" time="0.712" classname="04CancelacionYEliminacionCrearOrdenConIdAutomaticoYFechaPropia"/>
+    <testcase name="Recibe el siguiente id numérico" time="0.712" classname="04CancelacionYEliminacionCrearOrdenConIdAutomaticoYFechaPropia"/>
+  </testsuite>
+  <testsuite name="04 Cancelación y eliminación / Cancelar la orden" id="f2536494-17ff-4794-bd12-8a9f0c3b2726" timestamp="2026-10-27T23:58:59.288Z" tests="3" failures="0" errors="0" time="0.342">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.342" classname="04CancelacionYEliminacionCancelarLaOrden"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.342" classname="04CancelacionYEliminacionCancelarLaOrden"/>
+    <testcase name="HTTP 200" time="0.342" classname="04CancelacionYEliminacionCancelarLaOrden"/>
+  </testsuite>
+  <testsuite name="04 Cancelación y eliminación / Eliminar la orden cancelada" id="7ff6d0ce-a88b-447f-8e22-c43dfb82c0fe" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.443">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.443" classname="04CancelacionYEliminacionEliminarLaOrdenCancelada"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.443" classname="04CancelacionYEliminacionEliminarLaOrdenCancelada"/>
+    <testcase name="HTTP 200" time="0.443" classname="04CancelacionYEliminacionEliminarLaOrdenCancelada"/>
+    <testcase name="Se borró también su seguimiento" time="0.443" classname="04CancelacionYEliminacionEliminarLaOrdenCancelada"/>
+  </testsuite>
+  <testsuite name="04 Cancelación y eliminación / La orden eliminada ya no existe" id="be3bd30c-56e3-478a-8f6b-98cfa8bb9ee9" timestamp="2026-10-27T23:58:59.288Z" tests="6" failures="0" errors="0" time="0.095">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.095" classname="04CancelacionYEliminacionLaOrdenEliminadaYaNoExiste"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.095" classname="04CancelacionYEliminacionLaOrdenEliminadaYaNoExiste"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.095" classname="04CancelacionYEliminacionLaOrdenEliminadaYaNoExiste"/>
+    <testcase name="No expone trazas internas" time="0.095" classname="04CancelacionYEliminacionLaOrdenEliminadaYaNoExiste"/>
+    <testcase name="HTTP 404" time="0.095" classname="04CancelacionYEliminacionLaOrdenEliminadaYaNoExiste"/>
+    <testcase name="codigo NO_ENCONTRADO" time="0.095" classname="04CancelacionYEliminacionLaOrdenEliminadaYaNoExiste"/>
+  </testsuite>
+  <testsuite name="04 Cancelación y eliminación / No quedaron documentos huérfanos" id="d5ef4bc2-5285-4d6e-8180-895748293958" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.731">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.731" classname="04CancelacionYEliminacionNoQuedaronDocumentosHuerfanos"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.731" classname="04CancelacionYEliminacionNoQuedaronDocumentosHuerfanos"/>
+    <testcase name="HTTP 200" time="0.731" classname="04CancelacionYEliminacionNoQuedaronDocumentosHuerfanos"/>
+    <testcase name="Huérfanos sin cambios respecto del inicio" time="0.731" classname="04CancelacionYEliminacionNoQuedaronDocumentosHuerfanos"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / Preparar una orden abierta para las pruebas" id="ff52671c-31b1-455b-ae84-6a0d63f27aa6" timestamp="2026-10-27T23:58:59.288Z" tests="3" failures="0" errors="0" time="0.355">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.355" classname="05ControlDeErroresPrepararUnaOrdenAbiertaParaLasPruebas"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.355" classname="05ControlDeErroresPrepararUnaOrdenAbiertaParaLasPruebas"/>
+    <testcase name="HTTP 201" time="0.355" classname="05ControlDeErroresPrepararUnaOrdenAbiertaParaLasPruebas"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Cliente inexistente" id="04d96534-61e9-4793-b15f-f33f9e632acb" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.120">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.120" classname="05ControlDeErrores400ClienteInexistente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.120" classname="05ControlDeErrores400ClienteInexistente"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.120" classname="05ControlDeErrores400ClienteInexistente"/>
+    <testcase name="No expone trazas internas" time="0.120" classname="05ControlDeErrores400ClienteInexistente"/>
+    <testcase name="HTTP 400" time="0.120" classname="05ControlDeErrores400ClienteInexistente"/>
+    <testcase name="codigo VALIDACION" time="0.120" classname="05ControlDeErrores400ClienteInexistente"/>
+    <testcase name="El detalle menciona: El cliente 99999 no existe" time="0.120" classname="05ControlDeErrores400ClienteInexistente"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Ruta inexistente" id="b17733b0-c822-447d-9956-bb070c55a1e0" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.177">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.177" classname="05ControlDeErrores400RutaInexistente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.177" classname="05ControlDeErrores400RutaInexistente"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.177" classname="05ControlDeErrores400RutaInexistente"/>
+    <testcase name="No expone trazas internas" time="0.177" classname="05ControlDeErrores400RutaInexistente"/>
+    <testcase name="HTTP 400" time="0.177" classname="05ControlDeErrores400RutaInexistente"/>
+    <testcase name="codigo VALIDACION" time="0.177" classname="05ControlDeErrores400RutaInexistente"/>
+    <testcase name="El detalle menciona: La ruta ruta_99999 no existe" time="0.177" classname="05ControlDeErrores400RutaInexistente"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Total negativo" id="036c2f01-9a87-40fe-9eca-3a7e5e8a89fb" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.011">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.011" classname="05ControlDeErrores400TotalNegativo"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.011" classname="05ControlDeErrores400TotalNegativo"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.011" classname="05ControlDeErrores400TotalNegativo"/>
+    <testcase name="No expone trazas internas" time="0.011" classname="05ControlDeErrores400TotalNegativo"/>
+    <testcase name="HTTP 400" time="0.011" classname="05ControlDeErrores400TotalNegativo"/>
+    <testcase name="codigo VALIDACION" time="0.011" classname="05ControlDeErrores400TotalNegativo"/>
+    <testcase name="El detalle menciona: mayor que 0" time="0.011" classname="05ControlDeErrores400TotalNegativo"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Total con texto" id="4edcaeb1-6c0f-43b8-8b7f-c1f0f2cf3eff" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.130">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.130" classname="05ControlDeErrores400TotalConTexto"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.130" classname="05ControlDeErrores400TotalConTexto"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.130" classname="05ControlDeErrores400TotalConTexto"/>
+    <testcase name="No expone trazas internas" time="0.130" classname="05ControlDeErrores400TotalConTexto"/>
+    <testcase name="HTTP 400" time="0.130" classname="05ControlDeErrores400TotalConTexto"/>
+    <testcase name="codigo VALIDACION" time="0.130" classname="05ControlDeErrores400TotalConTexto"/>
+    <testcase name="Se informa el campo total" time="0.130" classname="05ControlDeErrores400TotalConTexto"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Medio de pago inválido" id="6f201272-3c84-4115-a58d-8a412b47d7c5" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.008">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.008" classname="05ControlDeErrores400MedioDePagoInvalido"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.008" classname="05ControlDeErrores400MedioDePagoInvalido"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.008" classname="05ControlDeErrores400MedioDePagoInvalido"/>
+    <testcase name="No expone trazas internas" time="0.008" classname="05ControlDeErrores400MedioDePagoInvalido"/>
+    <testcase name="HTTP 400" time="0.008" classname="05ControlDeErrores400MedioDePagoInvalido"/>
+    <testcase name="codigo VALIDACION" time="0.008" classname="05ControlDeErrores400MedioDePagoInvalido"/>
+    <testcase name="El detalle menciona: Medio de pago inválido" time="0.008" classname="05ControlDeErrores400MedioDePagoInvalido"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Falta un campo obligatorio" id="79158206-2897-412b-b6e1-1fa99fb81c97" timestamp="2026-10-27T23:58:59.288Z" tests="8" failures="0" errors="0" time="0.007">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.007" classname="05ControlDeErrores400FaltaUnCampoObligatorio"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.007" classname="05ControlDeErrores400FaltaUnCampoObligatorio"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.007" classname="05ControlDeErrores400FaltaUnCampoObligatorio"/>
+    <testcase name="No expone trazas internas" time="0.007" classname="05ControlDeErrores400FaltaUnCampoObligatorio"/>
+    <testcase name="HTTP 400" time="0.007" classname="05ControlDeErrores400FaltaUnCampoObligatorio"/>
+    <testcase name="codigo VALIDACION" time="0.007" classname="05ControlDeErrores400FaltaUnCampoObligatorio"/>
+    <testcase name="El detalle menciona: Campo obligatorio" time="0.007" classname="05ControlDeErrores400FaltaUnCampoObligatorio"/>
+    <testcase name="Se informa el campo total" time="0.007" classname="05ControlDeErrores400FaltaUnCampoObligatorio"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Campo no permitido (estado al crear)" id="60038066-11f9-4c3a-98db-35a28296bbc5" timestamp="2026-10-27T23:58:59.288Z" tests="8" failures="0" errors="0" time="0.019">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.019" classname="05ControlDeErrores400CampoNoPermitidoEstadoAlCrear"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.019" classname="05ControlDeErrores400CampoNoPermitidoEstadoAlCrear"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.019" classname="05ControlDeErrores400CampoNoPermitidoEstadoAlCrear"/>
+    <testcase name="No expone trazas internas" time="0.019" classname="05ControlDeErrores400CampoNoPermitidoEstadoAlCrear"/>
+    <testcase name="HTTP 400" time="0.019" classname="05ControlDeErrores400CampoNoPermitidoEstadoAlCrear"/>
+    <testcase name="codigo VALIDACION" time="0.019" classname="05ControlDeErrores400CampoNoPermitidoEstadoAlCrear"/>
+    <testcase name="El detalle menciona: Campo no permitido" time="0.019" classname="05ControlDeErrores400CampoNoPermitidoEstadoAlCrear"/>
+    <testcase name="Se informa el campo estado" time="0.019" classname="05ControlDeErrores400CampoNoPermitidoEstadoAlCrear"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 JSON mal formado" id="25f62ce0-f4b7-4d2b-9c09-3ee0522b1498" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.007">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.007" classname="05ControlDeErrores400JsonMalFormado"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.007" classname="05ControlDeErrores400JsonMalFormado"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.007" classname="05ControlDeErrores400JsonMalFormado"/>
+    <testcase name="No expone trazas internas" time="0.007" classname="05ControlDeErrores400JsonMalFormado"/>
+    <testcase name="HTTP 400" time="0.007" classname="05ControlDeErrores400JsonMalFormado"/>
+    <testcase name="codigo VALIDACION" time="0.007" classname="05ControlDeErrores400JsonMalFormado"/>
+    <testcase name="El detalle menciona: JSON válido" time="0.007" classname="05ControlDeErrores400JsonMalFormado"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Id de orden con formato inválido" id="2d335b3a-c546-4572-b8eb-f09ebb9086e4" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.016">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.016" classname="05ControlDeErrores400IdDeOrdenConFormatoInvalido"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.016" classname="05ControlDeErrores400IdDeOrdenConFormatoInvalido"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.016" classname="05ControlDeErrores400IdDeOrdenConFormatoInvalido"/>
+    <testcase name="No expone trazas internas" time="0.016" classname="05ControlDeErrores400IdDeOrdenConFormatoInvalido"/>
+    <testcase name="HTTP 400" time="0.016" classname="05ControlDeErrores400IdDeOrdenConFormatoInvalido"/>
+    <testcase name="codigo VALIDACION" time="0.016" classname="05ControlDeErrores400IdDeOrdenConFormatoInvalido"/>
+    <testcase name="El detalle menciona: formato orden_" time="0.016" classname="05ControlDeErrores400IdDeOrdenConFormatoInvalido"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Intento de inyección NoSQL en el id" id="718d0fd6-c6d5-4a36-867b-77549aa82e93" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.026">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.026" classname="05ControlDeErrores400IntentoDeInyeccionNoSqlEnElId"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.026" classname="05ControlDeErrores400IntentoDeInyeccionNoSqlEnElId"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.026" classname="05ControlDeErrores400IntentoDeInyeccionNoSqlEnElId"/>
+    <testcase name="No expone trazas internas" time="0.026" classname="05ControlDeErrores400IntentoDeInyeccionNoSqlEnElId"/>
+    <testcase name="HTTP 400" time="0.026" classname="05ControlDeErrores400IntentoDeInyeccionNoSqlEnElId"/>
+    <testcase name="codigo VALIDACION" time="0.026" classname="05ControlDeErrores400IntentoDeInyeccionNoSqlEnElId"/>
+    <testcase name="El detalle menciona: formato orden_" time="0.026" classname="05ControlDeErrores400IntentoDeInyeccionNoSqlEnElId"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Límite de paginación fuera de rango" id="695e660c-35cb-4908-9280-3c4a90a2b007" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.014">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.014" classname="05ControlDeErrores400LimiteDePaginacionFueraDeRango"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.014" classname="05ControlDeErrores400LimiteDePaginacionFueraDeRango"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.014" classname="05ControlDeErrores400LimiteDePaginacionFueraDeRango"/>
+    <testcase name="No expone trazas internas" time="0.014" classname="05ControlDeErrores400LimiteDePaginacionFueraDeRango"/>
+    <testcase name="HTTP 400" time="0.014" classname="05ControlDeErrores400LimiteDePaginacionFueraDeRango"/>
+    <testcase name="codigo VALIDACION" time="0.014" classname="05ControlDeErrores400LimiteDePaginacionFueraDeRango"/>
+    <testcase name="El detalle menciona: limite debe ser un entero entre 1 y 100" time="0.014" classname="05ControlDeErrores400LimiteDePaginacionFueraDeRango"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Parámetro con tipo incorrecto" id="3b1eb98f-499b-4403-bed4-1c8e3c3e7cfa" timestamp="2026-10-27T23:58:59.288Z" tests="8" failures="0" errors="0" time="0.042">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.042" classname="05ControlDeErrores400ParametroConTipoIncorrecto"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.042" classname="05ControlDeErrores400ParametroConTipoIncorrecto"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.042" classname="05ControlDeErrores400ParametroConTipoIncorrecto"/>
+    <testcase name="No expone trazas internas" time="0.042" classname="05ControlDeErrores400ParametroConTipoIncorrecto"/>
+    <testcase name="HTTP 400" time="0.042" classname="05ControlDeErrores400ParametroConTipoIncorrecto"/>
+    <testcase name="codigo VALIDACION" time="0.042" classname="05ControlDeErrores400ParametroConTipoIncorrecto"/>
+    <testcase name="Se informa el campo limite" time="0.042" classname="05ControlDeErrores400ParametroConTipoIncorrecto"/>
+    <testcase name="Ubicación: parametro" time="0.042" classname="05ControlDeErrores400ParametroConTipoIncorrecto"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Estado de filtro inválido" id="b6d797de-833e-4079-94b7-39eda4d00726" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.050">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.050" classname="05ControlDeErrores400EstadoDeFiltroInvalido"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.050" classname="05ControlDeErrores400EstadoDeFiltroInvalido"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.050" classname="05ControlDeErrores400EstadoDeFiltroInvalido"/>
+    <testcase name="No expone trazas internas" time="0.050" classname="05ControlDeErrores400EstadoDeFiltroInvalido"/>
+    <testcase name="HTTP 400" time="0.050" classname="05ControlDeErrores400EstadoDeFiltroInvalido"/>
+    <testcase name="codigo VALIDACION" time="0.050" classname="05ControlDeErrores400EstadoDeFiltroInvalido"/>
+    <testcase name="El detalle menciona: Estado inválido" time="0.050" classname="05ControlDeErrores400EstadoDeFiltroInvalido"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Estado destino inválido" id="d62d7b4d-14c1-47b6-bc09-a46d1096568c" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.012">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.012" classname="05ControlDeErrores400EstadoDestinoInvalido"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.012" classname="05ControlDeErrores400EstadoDestinoInvalido"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.012" classname="05ControlDeErrores400EstadoDestinoInvalido"/>
+    <testcase name="No expone trazas internas" time="0.012" classname="05ControlDeErrores400EstadoDestinoInvalido"/>
+    <testcase name="HTTP 400" time="0.012" classname="05ControlDeErrores400EstadoDestinoInvalido"/>
+    <testcase name="codigo VALIDACION" time="0.012" classname="05ControlDeErrores400EstadoDestinoInvalido"/>
+    <testcase name="El detalle menciona: Estado inválido" time="0.012" classname="05ControlDeErrores400EstadoDestinoInvalido"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Puntaje fuera de rango" id="b747156d-abbf-4ca6-98a2-7b0964eb9de3" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.015">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.015" classname="05ControlDeErrores400PuntajeFueraDeRango"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.015" classname="05ControlDeErrores400PuntajeFueraDeRango"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.015" classname="05ControlDeErrores400PuntajeFueraDeRango"/>
+    <testcase name="No expone trazas internas" time="0.015" classname="05ControlDeErrores400PuntajeFueraDeRango"/>
+    <testcase name="HTTP 400" time="0.015" classname="05ControlDeErrores400PuntajeFueraDeRango"/>
+    <testcase name="codigo VALIDACION" time="0.015" classname="05ControlDeErrores400PuntajeFueraDeRango"/>
+    <testcase name="El detalle menciona: entre 1 y 5" time="0.015" classname="05ControlDeErrores400PuntajeFueraDeRango"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Puntaje decimal" id="dc2a87eb-af00-4f32-9ddc-ebafe4e9976b" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.049">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.049" classname="05ControlDeErrores400PuntajeDecimal"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.049" classname="05ControlDeErrores400PuntajeDecimal"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.049" classname="05ControlDeErrores400PuntajeDecimal"/>
+    <testcase name="No expone trazas internas" time="0.049" classname="05ControlDeErrores400PuntajeDecimal"/>
+    <testcase name="HTTP 400" time="0.049" classname="05ControlDeErrores400PuntajeDecimal"/>
+    <testcase name="codigo VALIDACION" time="0.049" classname="05ControlDeErrores400PuntajeDecimal"/>
+    <testcase name="Se informa el campo puntaje" time="0.049" classname="05ControlDeErrores400PuntajeDecimal"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 400 Id de cliente inválido" id="53d28c5c-e6d6-4dfb-8c17-b07e28cd9312" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.007">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.007" classname="05ControlDeErrores400IdDeClienteInvalido"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.007" classname="05ControlDeErrores400IdDeClienteInvalido"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.007" classname="05ControlDeErrores400IdDeClienteInvalido"/>
+    <testcase name="No expone trazas internas" time="0.007" classname="05ControlDeErrores400IdDeClienteInvalido"/>
+    <testcase name="HTTP 400" time="0.007" classname="05ControlDeErrores400IdDeClienteInvalido"/>
+    <testcase name="codigo VALIDACION" time="0.007" classname="05ControlDeErrores400IdDeClienteInvalido"/>
+    <testcase name="El detalle menciona: entero positivo" time="0.007" classname="05ControlDeErrores400IdDeClienteInvalido"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 404 Orden inexistente" id="48897f7e-bef8-454a-aeae-25e01173dcaa" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.103">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.103" classname="05ControlDeErrores404OrdenInexistente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.103" classname="05ControlDeErrores404OrdenInexistente"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.103" classname="05ControlDeErrores404OrdenInexistente"/>
+    <testcase name="No expone trazas internas" time="0.103" classname="05ControlDeErrores404OrdenInexistente"/>
+    <testcase name="HTTP 404" time="0.103" classname="05ControlDeErrores404OrdenInexistente"/>
+    <testcase name="codigo NO_ENCONTRADO" time="0.103" classname="05ControlDeErrores404OrdenInexistente"/>
+    <testcase name="El detalle menciona: no existe" time="0.103" classname="05ControlDeErrores404OrdenInexistente"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 404 Cliente inexistente" id="f4778548-7785-42d4-82a6-c2082d3fed6d" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.103">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.103" classname="05ControlDeErrores404ClienteInexistente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.103" classname="05ControlDeErrores404ClienteInexistente"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.103" classname="05ControlDeErrores404ClienteInexistente"/>
+    <testcase name="No expone trazas internas" time="0.103" classname="05ControlDeErrores404ClienteInexistente"/>
+    <testcase name="HTTP 404" time="0.103" classname="05ControlDeErrores404ClienteInexistente"/>
+    <testcase name="codigo NO_ENCONTRADO" time="0.103" classname="05ControlDeErrores404ClienteInexistente"/>
+    <testcase name="El detalle menciona: 999999" time="0.103" classname="05ControlDeErrores404ClienteInexistente"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 404 Ruta inexistente" id="2259ca38-d973-4d52-ba68-b1f797d50078" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.113">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.113" classname="05ControlDeErrores404RutaInexistente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.113" classname="05ControlDeErrores404RutaInexistente"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.113" classname="05ControlDeErrores404RutaInexistente"/>
+    <testcase name="No expone trazas internas" time="0.113" classname="05ControlDeErrores404RutaInexistente"/>
+    <testcase name="HTTP 404" time="0.113" classname="05ControlDeErrores404RutaInexistente"/>
+    <testcase name="codigo NO_ENCONTRADO" time="0.113" classname="05ControlDeErrores404RutaInexistente"/>
+    <testcase name="El detalle menciona: ruta_99999" time="0.113" classname="05ControlDeErrores404RutaInexistente"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 404 Consulta inexistente" id="8ddc7b73-ecc9-4236-900a-2c05e2cc83d2" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.009">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.009" classname="05ControlDeErrores404ConsultaInexistente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.009" classname="05ControlDeErrores404ConsultaInexistente"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.009" classname="05ControlDeErrores404ConsultaInexistente"/>
+    <testcase name="No expone trazas internas" time="0.009" classname="05ControlDeErrores404ConsultaInexistente"/>
+    <testcase name="HTTP 404" time="0.009" classname="05ControlDeErrores404ConsultaInexistente"/>
+    <testcase name="codigo NO_ENCONTRADO" time="0.009" classname="05ControlDeErrores404ConsultaInexistente"/>
+    <testcase name="El detalle menciona: Disponibles" time="0.009" classname="05ControlDeErrores404ConsultaInexistente"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 404 Endpoint inexistente" id="07c47ba7-b274-4109-b27c-086a9c4b2af8" timestamp="2026-10-27T23:58:59.288Z" tests="6" failures="0" errors="0" time="0.079">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.079" classname="05ControlDeErrores404EndpointInexistente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.079" classname="05ControlDeErrores404EndpointInexistente"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.079" classname="05ControlDeErrores404EndpointInexistente"/>
+    <testcase name="No expone trazas internas" time="0.079" classname="05ControlDeErrores404EndpointInexistente"/>
+    <testcase name="HTTP 404" time="0.079" classname="05ControlDeErrores404EndpointInexistente"/>
+    <testcase name="codigo RUTA_NO_ENCONTRADA" time="0.079" classname="05ControlDeErrores404EndpointInexistente"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 405 Método no permitido" id="be6502a9-a345-400d-a181-236074554400" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.149">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.149" classname="05ControlDeErrores405MetodoNoPermitido"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.149" classname="05ControlDeErrores405MetodoNoPermitido"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.149" classname="05ControlDeErrores405MetodoNoPermitido"/>
+    <testcase name="No expone trazas internas" time="0.149" classname="05ControlDeErrores405MetodoNoPermitido"/>
+    <testcase name="HTTP 405" time="0.149" classname="05ControlDeErrores405MetodoNoPermitido"/>
+    <testcase name="codigo METODO_NO_PERMITIDO" time="0.149" classname="05ControlDeErrores405MetodoNoPermitido"/>
+    <testcase name="Cabecera Allow con los métodos válidos" time="0.149" classname="05ControlDeErrores405MetodoNoPermitido"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 409 Id de orden duplicado" id="43a9a405-0128-4dbe-8ec6-5c7edf183735" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.271">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.271" classname="05ControlDeErrores409IdDeOrdenDuplicado"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.271" classname="05ControlDeErrores409IdDeOrdenDuplicado"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.271" classname="05ControlDeErrores409IdDeOrdenDuplicado"/>
+    <testcase name="No expone trazas internas" time="0.271" classname="05ControlDeErrores409IdDeOrdenDuplicado"/>
+    <testcase name="HTTP 409" time="0.271" classname="05ControlDeErrores409IdDeOrdenDuplicado"/>
+    <testcase name="codigo CONFLICTO" time="0.271" classname="05ControlDeErrores409IdDeOrdenDuplicado"/>
+    <testcase name="El detalle menciona: Ya existe la orden" time="0.271" classname="05ControlDeErrores409IdDeOrdenDuplicado"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 409 Transición no permitida (Entregado -> En preparación)" id="9148755a-b474-43d1-8e66-c4f1c56b6c6f" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.106">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.106" classname="05ControlDeErrores409TransicionNoPermitidaEntregadoEnPreparacion"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.106" classname="05ControlDeErrores409TransicionNoPermitidaEntregadoEnPreparacion"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.106" classname="05ControlDeErrores409TransicionNoPermitidaEntregadoEnPreparacion"/>
+    <testcase name="No expone trazas internas" time="0.106" classname="05ControlDeErrores409TransicionNoPermitidaEntregadoEnPreparacion"/>
+    <testcase name="HTTP 409" time="0.106" classname="05ControlDeErrores409TransicionNoPermitidaEntregadoEnPreparacion"/>
+    <testcase name="codigo CONFLICTO" time="0.106" classname="05ControlDeErrores409TransicionNoPermitidaEntregadoEnPreparacion"/>
+    <testcase name="El detalle menciona: Transición no permitida" time="0.106" classname="05ControlDeErrores409TransicionNoPermitidaEntregadoEnPreparacion"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 409 Saltar etapas (En preparación -> Entregado)" id="7092ac3a-514a-4cb4-84ce-07fdfcd00c33" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.119">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.119" classname="05ControlDeErrores409SaltarEtapasEnPreparacionEntregado"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.119" classname="05ControlDeErrores409SaltarEtapasEnPreparacionEntregado"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.119" classname="05ControlDeErrores409SaltarEtapasEnPreparacionEntregado"/>
+    <testcase name="No expone trazas internas" time="0.119" classname="05ControlDeErrores409SaltarEtapasEnPreparacionEntregado"/>
+    <testcase name="HTTP 409" time="0.119" classname="05ControlDeErrores409SaltarEtapasEnPreparacionEntregado"/>
+    <testcase name="codigo CONFLICTO" time="0.119" classname="05ControlDeErrores409SaltarEtapasEnPreparacionEntregado"/>
+    <testcase name="El detalle menciona: Transición no permitida" time="0.119" classname="05ControlDeErrores409SaltarEtapasEnPreparacionEntregado"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 409 Corregir el total de una orden entregada" id="73379b06-5442-44e1-a2ac-6e3476bbe846" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.145">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.145" classname="05ControlDeErrores409CorregirElTotalDeUnaOrdenEntregada"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.145" classname="05ControlDeErrores409CorregirElTotalDeUnaOrdenEntregada"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.145" classname="05ControlDeErrores409CorregirElTotalDeUnaOrdenEntregada"/>
+    <testcase name="No expone trazas internas" time="0.145" classname="05ControlDeErrores409CorregirElTotalDeUnaOrdenEntregada"/>
+    <testcase name="HTTP 409" time="0.145" classname="05ControlDeErrores409CorregirElTotalDeUnaOrdenEntregada"/>
+    <testcase name="codigo CONFLICTO" time="0.145" classname="05ControlDeErrores409CorregirElTotalDeUnaOrdenEntregada"/>
+    <testcase name="El detalle menciona: No se puede corregir el total" time="0.145" classname="05ControlDeErrores409CorregirElTotalDeUnaOrdenEntregada"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 409 Valoración duplicada" id="59633b4c-e214-4967-bc9e-eefabbcb4194" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.176">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.176" classname="05ControlDeErrores409ValoracionDuplicada"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.176" classname="05ControlDeErrores409ValoracionDuplicada"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.176" classname="05ControlDeErrores409ValoracionDuplicada"/>
+    <testcase name="No expone trazas internas" time="0.176" classname="05ControlDeErrores409ValoracionDuplicada"/>
+    <testcase name="HTTP 409" time="0.176" classname="05ControlDeErrores409ValoracionDuplicada"/>
+    <testcase name="codigo CONFLICTO" time="0.176" classname="05ControlDeErrores409ValoracionDuplicada"/>
+    <testcase name="El detalle menciona: ya tiene una valoración" time="0.176" classname="05ControlDeErrores409ValoracionDuplicada"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 409 Valorar una orden no entregada" id="8eecbd01-f03f-4c39-a53c-8b13f2dfe932" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.258">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.258" classname="05ControlDeErrores409ValorarUnaOrdenNoEntregada"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.258" classname="05ControlDeErrores409ValorarUnaOrdenNoEntregada"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.258" classname="05ControlDeErrores409ValorarUnaOrdenNoEntregada"/>
+    <testcase name="No expone trazas internas" time="0.258" classname="05ControlDeErrores409ValorarUnaOrdenNoEntregada"/>
+    <testcase name="HTTP 409" time="0.258" classname="05ControlDeErrores409ValorarUnaOrdenNoEntregada"/>
+    <testcase name="codigo CONFLICTO" time="0.258" classname="05ControlDeErrores409ValorarUnaOrdenNoEntregada"/>
+    <testcase name="El detalle menciona: Solo se pueden valorar órdenes entregadas" time="0.258" classname="05ControlDeErrores409ValorarUnaOrdenNoEntregada"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / 409 Eliminar una orden entregada sin forzar" id="240ed956-e64c-400e-9f4b-fc9f6b2038f4" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.098">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.098" classname="05ControlDeErrores409EliminarUnaOrdenEntregadaSinForzar"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.098" classname="05ControlDeErrores409EliminarUnaOrdenEntregadaSinForzar"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.098" classname="05ControlDeErrores409EliminarUnaOrdenEntregadaSinForzar"/>
+    <testcase name="No expone trazas internas" time="0.098" classname="05ControlDeErrores409EliminarUnaOrdenEntregadaSinForzar"/>
+    <testcase name="HTTP 409" time="0.098" classname="05ControlDeErrores409EliminarUnaOrdenEntregadaSinForzar"/>
+    <testcase name="codigo CONFLICTO" time="0.098" classname="05ControlDeErrores409EliminarUnaOrdenEntregadaSinForzar"/>
+    <testcase name="El detalle menciona: No se puede eliminar" time="0.098" classname="05ControlDeErrores409EliminarUnaOrdenEntregadaSinForzar"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / Los rechazos no modificaron los datos" id="81de31a2-4f7f-4286-adcb-a0f8fa70d6a5" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.272">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.272" classname="05ControlDeErroresLosRechazosNoModificaronLosDatos"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.272" classname="05ControlDeErroresLosRechazosNoModificaronLosDatos"/>
+    <testcase name="HTTP 200" time="0.272" classname="05ControlDeErroresLosRechazosNoModificaronLosDatos"/>
+    <testcase name="La orden sigue igual" time="0.272" classname="05ControlDeErroresLosRechazosNoModificaronLosDatos"/>
+  </testsuite>
+  <testsuite name="05 Control de errores / Trazabilidad: se respeta el X-Request-ID del cliente" id="7ee83872-7a8d-486a-bcc9-f2016802c85c" timestamp="2026-10-27T23:58:59.288Z" tests="7" failures="0" errors="0" time="0.086">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.086" classname="05ControlDeErroresTrazabilidadSeRespetaElXRequestIdDelCliente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.086" classname="05ControlDeErroresTrazabilidadSeRespetaElXRequestIdDelCliente"/>
+    <testcase name="Error en formato Problem Details (RFC 9457)" time="0.086" classname="05ControlDeErroresTrazabilidadSeRespetaElXRequestIdDelCliente"/>
+    <testcase name="No expone trazas internas" time="0.086" classname="05ControlDeErroresTrazabilidadSeRespetaElXRequestIdDelCliente"/>
+    <testcase name="HTTP 404" time="0.086" classname="05ControlDeErroresTrazabilidadSeRespetaElXRequestIdDelCliente"/>
+    <testcase name="codigo NO_ENCONTRADO" time="0.086" classname="05ControlDeErroresTrazabilidadSeRespetaElXRequestIdDelCliente"/>
+    <testcase name="El id viaja en la cabecera y en el error" time="0.086" classname="05ControlDeErroresTrazabilidadSeRespetaElXRequestIdDelCliente"/>
+  </testsuite>
+  <testsuite name="06 Integridad / Auditoría con las órdenes de prueba" id="dca6329e-6959-4754-a535-5799fd2be27f" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.810">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.810" classname="06IntegridadAuditoriaConLasOrdenesDePrueba"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.810" classname="06IntegridadAuditoriaConLasOrdenesDePrueba"/>
+    <testcase name="HTTP 200" time="0.810" classname="06IntegridadAuditoriaConLasOrdenesDePrueba"/>
+    <testcase name="Las órdenes de prueba no agregan inconsistencias" time="0.810" classname="06IntegridadAuditoriaConLasOrdenesDePrueba"/>
+  </testsuite>
+  <testsuite name="06 Integridad / Reparar seguimientos (simulación)" id="12d3902f-0ffb-41dd-8587-03e242773471" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.761">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.761" classname="06IntegridadRepararSeguimientosSimulacion"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.761" classname="06IntegridadRepararSeguimientosSimulacion"/>
+    <testcase name="HTTP 200" time="0.761" classname="06IntegridadRepararSeguimientosSimulacion"/>
+    <testcase name="Detecta sin modificar" time="0.761" classname="06IntegridadRepararSeguimientosSimulacion"/>
+  </testsuite>
+  <testsuite name="06 Integridad / Depurar huérfanos (simulación)" id="10c546a1-dfdb-498f-aa6c-fed67eef8fa8" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.737">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.737" classname="06IntegridadDepurarHuerfanosSimulacion"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.737" classname="06IntegridadDepurarHuerfanosSimulacion"/>
+    <testcase name="HTTP 200" time="0.737" classname="06IntegridadDepurarHuerfanosSimulacion"/>
+    <testcase name="No ejecuta" time="0.737" classname="06IntegridadDepurarHuerfanosSimulacion"/>
+  </testsuite>
+  <testsuite name="06 Integridad / Sincronizar una orden ya consistente" id="8ec4caf2-5aee-4224-8408-a502c18f2f08" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.221">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.221" classname="06IntegridadSincronizarUnaOrdenYaConsistente"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.221" classname="06IntegridadSincronizarUnaOrdenYaConsistente"/>
+    <testcase name="HTTP 200" time="0.221" classname="06IntegridadSincronizarUnaOrdenYaConsistente"/>
+    <testcase name="Sin cambios" time="0.221" classname="06IntegridadSincronizarUnaOrdenYaConsistente"/>
+  </testsuite>
+  <testsuite name="07 Limpieza / Eliminar la orden abierta de prueba" id="d9a30a26-dc89-4235-9e56-deca06739706" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.572">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.572" classname="07LimpiezaEliminarLaOrdenAbiertaDePrueba"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.572" classname="07LimpiezaEliminarLaOrdenAbiertaDePrueba"/>
+    <testcase name="HTTP 200" time="0.572" classname="07LimpiezaEliminarLaOrdenAbiertaDePrueba"/>
+    <testcase name="Borra su seguimiento" time="0.572" classname="07LimpiezaEliminarLaOrdenAbiertaDePrueba"/>
+  </testsuite>
+  <testsuite name="07 Limpieza / Eliminar la orden entregada (forzar=true)" id="2681b1d9-cd94-4f06-ae4c-220ac98ef5fb" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.408">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.408" classname="07LimpiezaEliminarLaOrdenEntregadaForzarTrue"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.408" classname="07LimpiezaEliminarLaOrdenEntregadaForzarTrue"/>
+    <testcase name="HTTP 200" time="0.408" classname="07LimpiezaEliminarLaOrdenEntregadaForzarTrue"/>
+    <testcase name="Borra seguimiento y valoración" time="0.408" classname="07LimpiezaEliminarLaOrdenEntregadaForzarTrue"/>
+  </testsuite>
+  <testsuite name="07 Limpieza / La base volvió a su estado inicial" id="a641a631-fc39-4a9f-9f0e-ed728b91d289" timestamp="2026-10-27T23:58:59.288Z" tests="4" failures="0" errors="0" time="0.522">
+    <testcase name="Trazabilidad: responde X-Request-ID y X-Response-Time" time="0.522" classname="07LimpiezaLaBaseVolvioASuEstadoInicial"/>
+    <testcase name="Tiempo de respuesta menor a 5 s" time="0.522" classname="07LimpiezaLaBaseVolvioASuEstadoInicial"/>
+    <testcase name="HTTP 200" time="0.522" classname="07LimpiezaLaBaseVolvioASuEstadoInicial"/>
+    <testcase name="Mismos totales y mismas inconsistencias que al inicio" time="0.522" classname="07LimpiezaLaBaseVolvioASuEstadoInicial"/>
+  </testsuite>
+</testsuites>
