@@ -1,0 +1,101 @@
+﻿_id,cliente_id,ruta_id,fecha_envio,mes,estado,medio_pago,total,zona,ciudad_origen,ciudad_destino,cliente_activo_cosmos,cliente_ciudad_cosmos,seguimiento_estado_actual,puntaje_valoracion,flag_envio_previo_registro,flag_orden_vs_seguimiento,flag_seguimiento_vs_historial,flag_c11,flag_valoracion_contradictoria,flag_valorada_no_entregada
+orden_4,56,ruta_70,2022-08-07,2022-08,En preparación,Transferencia,151191.2,Norte,Valparaíso,Iquique,False,,Despachado,3,True,True,True,False,False,True
+orden_5,86,ruta_36,2023-09-25,2023-09,En tránsito,Transferencia,170785.29,Poniente,Valparaíso,La Serena,False,,En preparación,4,False,True,True,True,False,True
+orden_9,22,ruta_36,2023-02-18,2023-02,En preparación,Tarjeta,121749.79,Poniente,Valparaíso,La Serena,False,,Entregado,1,True,True,False,False,False,True
+orden_11,75,ruta_49,2024-01-17,2024-01,Entregado,Tarjeta,75995.81,Oriente,Santiago,Iquique,False,,Despachado,2,True,True,True,False,False,False
+orden_22,71,ruta_68,2024-04-10,2024-04,En tránsito,Transferencia,190328.01,Poniente,Santiago,La Serena,False,,Entregado,1,False,True,False,False,True,True
+orden_25,90,ruta_12,2023-05-12,2023-05,Cancelado,Transferencia,151723.26,Poniente,Santiago,Iquique,False,,En tránsito,4,True,True,True,False,False,True
+orden_29,91,ruta_94,2023-05-05,2023-05,En tránsito,Transferencia,131550.6,Norte,Concepción,Iquique,False,,Despachado,2,True,True,True,False,True,True
+orden_30,3,ruta_35,2023-02-21,2023-02,En preparación,Tarjeta,174983.73,Norte,Temuco,Arica,False,,Entregado,4,True,True,True,False,False,True
+orden_34,59,ruta_76,2024-03-20,2024-03,Cancelado,Transferencia,48689.63,Norte,Santiago,Puerto Montt,False,,Despachado,4,True,True,True,False,True,True
+orden_39,1,ruta_60,2022-11-03,2022-11,En preparación,Efectivo,82867.02,Norte,Valparaíso,Arica,True,Lima,Entregado,2,True,True,True,False,True,True
+orden_46,69,ruta_44,2023-11-13,2023-11,Cancelado,Transferencia,177441.7,Norte,Valparaíso,Arica,False,,Entregado,3,True,True,False,False,False,True
+orden_48,9,ruta_62,2023-12-14,2023-12,Cancelado,Transferencia,152201.31,Sur,Valparaíso,Arica,False,,Entregado,2,True,True,True,False,True,True
+orden_51,48,ruta_69,2024-06-07,2024-06,En tránsito,Transferencia,143176.15,Oriente,Valparaíso,Puerto Montt,False,,Despachado,4,True,True,True,False,False,True
+orden_52,39,ruta_29,2023-07-14,2023-07,En preparación,Transferencia,165826.58,Norte,Antofagasta,Talca,False,,En preparación,5,True,False,True,False,False,True
+orden_55,98,ruta_67,2024-06-22,2024-06,En tránsito,Efectivo,73814.03,Oriente,Antofagasta,Puerto Montt,False,,Entregado,4,False,True,True,False,False,True
+orden_57,68,ruta_86,2023-01-07,2023-01,Entregado,Transferencia,54679.23,Poniente,Valparaíso,Talca,False,,En preparación,5,True,True,True,False,False,False
+orden_58,29,ruta_19,2023-03-27,2023-03,Cancelado,Tarjeta,96902.9,Norte,Santiago,Iquique,False,,Despachado,4,True,True,True,False,False,True
+orden_59,8,ruta_9,2023-06-08,2023-06,En preparación,Tarjeta,65446.18,Oriente,Valparaíso,Arica,False,,Despachado,4,True,True,False,False,False,True
+orden_67,35,ruta_74,2022-08-19,2022-08,En tránsito,Efectivo,15218.59,Centro,Temuco,La Serena,False,,En preparación,1,True,True,True,True,True,True
+orden_76,50,ruta_58,2022-02-15,2022-02,En tránsito,Tarjeta,72390.5,Norte,Antofagasta,Talca,False,,Despachado,2,True,True,False,False,False,True
+orden_77,31,ruta_21,2023-01-15,2023-01,En preparación,Efectivo,146329.03,Poniente,Santiago,Iquique,False,,Despachado,1,True,True,False,False,True,True
+orden_78,79,ruta_30,2023-04-02,2023-04,En tránsito,Tarjeta,102726.16,Oriente,Temuco,Arica,False,,En preparación,3,True,True,True,False,False,True
+orden_82,39,ruta_11,2023-05-06,2023-05,En tránsito,Efectivo,62151.37,Oriente,Santiago,La Serena,False,,En preparación,5,True,True,True,True,True,True
+orden_84,79,ruta_48,2024-01-23,2024-01,Entregado,Efectivo,117435.34,Sur,Concepción,Iquique,False,,Despachado,5,True,True,True,False,False,False
+orden_90,4,ruta_87,2023-10-28,2023-10,Entregado,Efectivo,179474.96,Oriente,Concepción,Talca,True,Buenos Aires,En preparación,2,False,True,True,True,False,False
+orden_95,42,ruta_80,2023-07-28,2023-07,Entregado,Transferencia,66970.39,Oriente,Santiago,Talca,False,,Entregado,4,True,False,True,False,False,False
+orden_100,25,ruta_87,2022-10-26,2022-10,En tránsito,Tarjeta,75163.6,Oriente,Concepción,Talca,False,,Despachado,1,True,True,False,False,False,True
+orden_3,31,ruta_93,2022-03-16,2022-03,Entregado,Efectivo,111841.49,Centro,Concepción,Puerto Montt,False,,Entregado,5,True,False,True,False,False,False
+orden_10,1,ruta_94,2023-04-10,2023-04,En preparación,Efectivo,197116.52,Norte,Concepción,Iquique,True,Lima,Entregado,5,True,True,True,False,False,True
+orden_14,71,ruta_42,2022-01-16,2022-01,Entregado,Tarjeta,168699.7,Poniente,Valparaíso,Puerto Montt,False,,Entregado,1,True,False,True,False,True,False
+orden_15,50,ruta_60,2024-03-14,2024-03,Cancelado,Efectivo,83084.24,Norte,Valparaíso,Arica,False,,Despachado,3,False,True,True,False,False,True
+orden_17,35,ruta_49,2023-05-14,2023-05,En tránsito,Transferencia,135211.93,Oriente,Santiago,Iquique,False,,En tránsito,1,True,False,False,False,False,True
+orden_19,63,ruta_51,2023-02-03,2023-02,Cancelado,Efectivo,140914.68,Centro,Antofagasta,Puerto Montt,False,,Despachado,4,True,True,False,False,True,True
+orden_24,68,ruta_47,2022-06-18,2022-06,En tránsito,Tarjeta,101127.88,Oriente,Temuco,Iquique,False,,En preparación,4,True,True,True,False,False,True
+orden_27,19,ruta_45,2023-09-15,2023-09,Cancelado,Transferencia,70713.5,Norte,Antofagasta,Puerto Montt,False,,En preparación,2,True,True,True,False,True,True
+orden_28,11,ruta_60,2024-02-27,2024-02,Entregado,Transferencia,197977.37,Norte,Valparaíso,Arica,False,,En preparación,4,False,True,True,True,True,False
+orden_31,58,ruta_12,2023-12-25,2023-12,En preparación,Transferencia,188583.54,Poniente,Santiago,Iquique,False,,En preparación,3,True,False,True,True,False,True
+orden_33,74,ruta_93,2022-02-13,2022-02,En tránsito,Tarjeta,60115.39,Centro,Concepción,Puerto Montt,False,,Entregado,5,True,True,True,False,False,True
+orden_40,48,ruta_62,2023-10-29,2023-10,Entregado,Tarjeta,44600.71,Sur,Valparaíso,Arica,False,,Entregado,5,True,False,False,False,True,False
+orden_43,69,ruta_88,2022-04-05,2022-04,En preparación,Efectivo,12216.14,Oriente,Santiago,La Serena,False,,En tránsito,2,True,True,True,False,True,True
+orden_44,13,ruta_21,2023-10-08,2023-10,Entregado,Transferencia,39163.42,Poniente,Santiago,Iquique,False,,Despachado,4,False,True,False,False,False,False
+orden_53,61,ruta_47,2023-09-19,2023-09,Entregado,Efectivo,147296.41,Oriente,Temuco,Iquique,False,,Entregado,4,False,False,True,False,False,False
+orden_54,27,ruta_63,2023-02-20,2023-02,En tránsito,Efectivo,61551.05,Poniente,Santiago,Puerto Montt,False,,Despachado,3,True,True,False,False,False,True
+orden_60,95,ruta_63,2023-04-26,2023-04,Cancelado,Transferencia,80112.24,Poniente,Santiago,Puerto Montt,False,,En tránsito,4,True,True,False,False,True,True
+orden_61,39,ruta_49,2022-09-09,2022-09,Entregado,Efectivo,25799.36,Oriente,Santiago,Iquique,False,,En preparación,2,True,True,True,True,False,False
+orden_63,7,ruta_56,2023-10-11,2023-10,Cancelado,Efectivo,26076.37,Sur,Temuco,Iquique,False,,En preparación,2,True,True,True,True,True,True
+orden_65,67,ruta_46,2023-03-20,2023-03,En preparación,Transferencia,104968.45,Poniente,Temuco,Puerto Montt,False,,En tránsito,4,True,True,True,False,False,True
+orden_68,94,ruta_65,2023-09-02,2023-09,En preparación,Transferencia,110591.61,Sur,Antofagasta,Arica,False,,Despachado,1,True,True,True,False,False,True
+orden_74,3,ruta_99,2022-02-19,2022-02,Entregado,Transferencia,151939.8,Poniente,Antofagasta,La Serena,False,,Entregado,5,True,False,True,False,False,False
+orden_75,21,ruta_32,2022-04-13,2022-04,En preparación,Tarjeta,38707.91,Oriente,Valparaíso,Talca,False,,En preparación,3,True,False,True,True,False,True
+orden_80,22,ruta_50,2023-03-04,2023-03,Entregado,Efectivo,151690.03,Poniente,Valparaíso,Talca,False,,Despachado,3,True,True,False,False,False,False
+orden_81,89,ruta_100,2023-04-02,2023-04,En tránsito,Transferencia,33970.79,Sur,Concepción,Talca,False,,Entregado,5,True,True,False,False,True,True
+orden_83,4,ruta_83,2022-08-04,2022-08,En preparación,Tarjeta,135716.85,Norte,Antofagasta,Talca,True,Buenos Aires,Despachado,1,True,True,True,False,True,True
+orden_85,2,ruta_31,2022-08-23,2022-08,En tránsito,Tarjeta,151058.57,Oriente,Temuco,La Serena,True,Bogotá,En preparación,5,True,True,True,True,False,True
+orden_89,76,ruta_51,2023-06-03,2023-06,Cancelado,Efectivo,102167.59,Centro,Antofagasta,Puerto Montt,False,,En preparación,1,True,True,True,True,True,True
+orden_91,98,ruta_18,2022-10-06,2022-10,En preparación,Tarjeta,72623.97,Poniente,Temuco,Arica,False,,Despachado,2,True,True,True,False,True,True
+orden_98,16,ruta_85,2022-11-07,2022-11,En preparación,Transferencia,76704.25,Sur,Santiago,La Serena,False,,Despachado,4,True,True,False,False,False,True
+orden_6,16,ruta_20,2023-01-09,2023-01,Entregado,Tarjeta,142059.52,Centro,Valparaíso,Arica,False,,Entregado,1,True,False,True,False,True,False
+orden_7,72,ruta_58,2022-02-08,2022-02,Entregado,Tarjeta,55832.56,Norte,Antofagasta,Talca,False,,En tránsito,3,True,True,True,False,False,False
+orden_12,13,ruta_93,2023-05-08,2023-05,Entregado,Efectivo,108077.34,Centro,Concepción,Puerto Montt,False,,En tránsito,3,True,True,True,False,False,False
+orden_13,77,ruta_12,2024-05-05,2024-05,En preparación,Tarjeta,106763.04,Poniente,Santiago,Iquique,False,,Despachado,1,True,True,True,False,False,True
+orden_18,29,ruta_39,2024-03-16,2024-03,Cancelado,Efectivo,171501.06,Centro,Antofagasta,Arica,False,,En tránsito,2,True,True,False,False,True,True
+orden_20,96,ruta_94,2022-07-05,2022-07,Cancelado,Tarjeta,46057.64,Norte,Concepción,Iquique,False,,En preparación,4,True,True,True,False,False,True
+orden_35,55,ruta_99,2022-09-21,2022-09,En tránsito,Efectivo,190106.46,Poniente,Antofagasta,La Serena,False,,En preparación,2,True,True,True,True,False,True
+orden_41,79,ruta_77,2024-01-28,2024-01,En preparación,Efectivo,62126.82,Sur,Temuco,Iquique,False,,En tránsito,4,True,True,True,False,False,True
+orden_45,36,ruta_64,2022-05-11,2022-05,En preparación,Transferencia,73933.08,Norte,Temuco,Puerto Montt,False,,En preparación,1,True,False,True,True,True,True
+orden_64,91,ruta_91,2022-01-23,2022-01,Entregado,Tarjeta,106409.91,Norte,Valparaíso,Talca,False,,En preparación,2,True,True,True,True,True,False
+orden_66,92,ruta_34,2023-08-20,2023-08,Cancelado,Transferencia,107672.42,Centro,Antofagasta,Arica,False,,En preparación,5,True,True,True,False,False,True
+orden_69,8,ruta_77,2022-03-22,2022-03,Cancelado,Tarjeta,136300.86,Sur,Temuco,Iquique,False,,En preparación,1,True,True,True,False,True,True
+orden_71,18,ruta_33,2024-03-20,2024-03,En preparación,Efectivo,109499.89,Oriente,Concepción,Talca,False,,En preparación,5,True,False,True,False,True,True
+orden_73,36,ruta_63,2024-06-13,2024-06,En preparación,Tarjeta,43892.7,Poniente,Santiago,Puerto Montt,False,,En tránsito,5,False,True,True,False,False,True
+orden_86,4,ruta_80,2024-06-13,2024-06,En preparación,Efectivo,165364.2,Oriente,Santiago,Talca,True,Buenos Aires,Despachado,1,False,True,True,False,True,True
+orden_87,65,ruta_51,2023-08-27,2023-08,Cancelado,Efectivo,197288.08,Centro,Antofagasta,Puerto Montt,False,,En tránsito,4,True,True,True,False,False,True
+orden_92,66,ruta_9,2023-09-02,2023-09,En preparación,Efectivo,190572.76,Oriente,Valparaíso,Arica,False,,Entregado,5,True,True,True,False,False,True
+orden_94,71,ruta_85,2022-03-07,2022-03,En preparación,Tarjeta,13765.39,Sur,Santiago,La Serena,False,,Entregado,4,True,True,False,False,False,True
+orden_96,49,ruta_13,2023-07-07,2023-07,En tránsito,Transferencia,165947.93,Norte,Temuco,Talca,False,,En tránsito,2,True,False,False,False,False,True
+orden_1,99,ruta_43,2022-10-18,2022-10,Cancelado,Transferencia,134152.77,Centro,Temuco,Iquique,False,,En preparación,1,True,True,True,True,False,True
+orden_2,73,ruta_99,2024-06-05,2024-06,Entregado,Tarjeta,165509.2,Poniente,Antofagasta,La Serena,False,,En preparación,4,False,True,True,True,False,False
+orden_8,68,ruta_44,2023-05-07,2023-05,Cancelado,Tarjeta,88734.89,Norte,Valparaíso,Arica,False,,En tránsito,4,True,True,True,False,False,True
+orden_16,59,ruta_38,2022-02-05,2022-02,En tránsito,Efectivo,22577.55,Oriente,Temuco,Arica,False,,Entregado,5,True,True,False,False,False,True
+orden_21,36,ruta_65,2023-04-24,2023-04,En preparación,Efectivo,169630.46,Sur,Antofagasta,Arica,False,,En preparación,2,True,False,True,True,True,True
+orden_23,20,ruta_20,2022-09-23,2022-09,Cancelado,Tarjeta,172305.02,Centro,Valparaíso,Arica,False,,En tránsito,4,True,True,False,False,False,True
+orden_26,27,ruta_98,2022-01-15,2022-01,Entregado,Efectivo,182075.53,Poniente,Valparaíso,Talca,False,,En tránsito,3,True,True,True,False,False,False
+orden_32,88,ruta_51,2022-02-09,2022-02,En preparación,Efectivo,18594.78,Centro,Antofagasta,Puerto Montt,False,,Despachado,2,True,True,False,False,True,True
+orden_36,88,ruta_26,2022-11-16,2022-11,En tránsito,Efectivo,170947.69,Sur,Concepción,Arica,False,,En preparación,3,True,True,True,True,False,True
+orden_37,43,ruta_24,2022-04-21,2022-04,Cancelado,Transferencia,18470.88,Oriente,Antofagasta,Talca,False,,Despachado,5,True,True,True,False,False,True
+orden_38,58,ruta_21,2023-05-09,2023-05,Entregado,Tarjeta,152561.69,Poniente,Santiago,Iquique,False,,Despachado,5,True,True,False,False,True,False
+orden_42,59,ruta_11,2022-01-21,2022-01,Entregado,Tarjeta,81640.21,Oriente,Santiago,La Serena,False,,En tránsito,3,True,True,True,False,False,False
+orden_47,35,ruta_89,2023-11-13,2023-11,En tránsito,Efectivo,159634.32,Oriente,Santiago,Talca,False,,Despachado,3,True,True,False,False,False,True
+orden_49,81,ruta_39,2024-05-30,2024-05,Cancelado,Transferencia,85185.59,Centro,Antofagasta,Arica,False,,En tránsito,3,False,True,False,False,False,True
+orden_50,68,ruta_54,2022-01-17,2022-01,En preparación,Transferencia,91424.91,Centro,Antofagasta,La Serena,False,,En preparación,1,True,False,True,True,False,True
+orden_56,87,ruta_65,2022-08-14,2022-08,En preparación,Efectivo,113992.02,Sur,Antofagasta,Arica,False,,Entregado,1,True,True,True,False,True,True
+orden_62,90,ruta_27,2024-01-09,2024-01,Entregado,Tarjeta,55358.79,Poniente,Antofagasta,La Serena,False,,En preparación,4,True,True,True,True,False,False
+orden_70,39,ruta_60,2023-10-13,2023-10,Cancelado,Tarjeta,198622.39,Norte,Valparaíso,Arica,False,,En preparación,3,True,True,True,True,False,True
+orden_72,47,ruta_8,2023-07-16,2023-07,Entregado,Tarjeta,40899.26,Centro,Valparaíso,Iquique,False,,Entregado,3,True,False,True,False,False,False
+orden_79,65,ruta_79,2022-11-30,2022-11,En preparación,Tarjeta,76028.25,Oriente,Temuco,Arica,False,,En tránsito,5,True,True,False,False,False,True
+orden_88,38,ruta_75,2022-10-19,2022-10,Entregado,Efectivo,55105.86,Oriente,Temuco,Talca,False,,Entregado,4,True,False,False,False,False,False
+orden_93,34,ruta_14,2023-02-22,2023-02,Cancelado,Tarjeta,185698.33,Oriente,Santiago,Puerto Montt,False,,En tránsito,1,True,True,True,False,True,True
+orden_97,40,ruta_59,2022-12-23,2022-12,Entregado,Transferencia,176107.92,Norte,Valparaíso,Iquique,False,,En preparación,3,True,True,True,True,False,False
+orden_99,10,ruta_43,2022-04-24,2022-04,Entregado,Transferencia,41628.63,Centro,Temuco,Iquique,False,,En tránsito,1,True,True,False,False,False,False

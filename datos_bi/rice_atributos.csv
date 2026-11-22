@@ -1,0 +1,25 @@
+﻿_id,pregunta,perspectiva,atributo,coleccion,reach,impact,confidence,effort,puntaje_rice,decision,justificacion
+rice_1,1,Negocio,total,ordenes_entrega,1.0,3.0,1.0,1,3.0,Conservar,"Métrica financiera central: ingresos entregados, cancelados y pendientes."
+rice_2,1,Negocio,estado,ordenes_entrega,1.0,3.0,1.0,1,3.0,Conservar,"Separa ingresos reales, pérdidas por cancelación y backlog en curso."
+rice_3,1,Negocio,medio_pago,ordenes_entrega,1.0,2.0,1.0,1,2.0,Conservar,Identifica la exposición a reembolsos por medio de pago.
+rice_4,1,Negocio,zona,rutas,1.0,3.0,1.0,2,1.5,Conservar,Revela las zonas con mayores pérdidas; exige unión con órdenes.
+rice_5,1,Negocio,fecha_envio,ordenes_entrega,1.0,3.0,0.9,2,1.35,Conservar,Base temporal de la evolución mensual; requiere derivar AAAA-MM.
+rice_6,1,Negocio,ciudad,clientes_cosmos_etl,1.0,2.0,1.0,2,1.0,Conservar,Segmenta la facturación de los clientes activos tras unir id con cliente_id.
+rice_7,1,Negocio,puntaje,valoraciones,1.0,2.0,0.75,2,0.75,Evaluar,"Vincula satisfacción con retención, pero la mayoría pertenece a órdenes no entregadas."
+rice_8,1,Negocio,pais,clientes,1.0,1.0,0.5,2,0.25,Descartar,Países sintéticos aleatorios sin coherencia con las rutas dentro de Chile.
+rice_9,1,Negocio,comentario,valoraciones,1.0,0.5,0.6,3,0.1,Descartar,Texto libre con contradicciones frente al puntaje; no aporta al cálculo financiero.
+rice_10,2,Técnica,id / _id -> cliente_id,clientes / todas,1.0,3.0,1.0,1,3.0,Conservar,Llave de relación; se normaliza a entero en el ETL.
+rice_11,2,Técnica,activo,clientes_cosmos,1.0,3.0,1.0,1,3.0,Conservar,Se filtra en la consulta de origen para leer menos documentos y ahorrar RU/s.
+rice_12,2,Técnica,estado_actual,seguimiento,1.0,3.0,0.85,1,2.55,Conservar,Atributo de auditoría: detecta seguimientos desalineados con la orden.
+rice_13,2,Técnica,historial,seguimiento,1.0,3.0,0.85,2,1.27,Conservar,Arreglo de eventos que se desanida para auditar el flujo operativo.
+rice_14,2,Técnica,fecha_registro,clientes_cosmos,1.0,2.0,0.9,2,0.9,Evaluar,"Útil para cohortes, con bandera temporal por órdenes previas al alta."
+rice_15,2,Técnica,"_rid, _self, _etag, _ts",clientes_cosmos,1.0,0.25,1.0,1,0.25,Descartar,Metadatos internos del motor sin valor analítico.
+rice_16,2,Técnica,correo,clientes (todas),1.0,0.25,0.95,1,0.24,Descartar,Dato personal identificable que no debe copiarse a la herramienta de BI.
+rice_17,3,Operacional,ruta_id,ordenes / rutas,1.0,3.0,1.0,1,3.0,Conservar,Identifica las rutas con mayor carga para asignar flota.
+rice_18,3,Operacional,estado,ordenes_entrega,1.0,3.0,1.0,1,3.0,Conservar,Filtra la carga operativa abierta y los pedidos críticos.
+rice_19,3,Operacional,ciudad_origen / destino,rutas,1.0,2.0,0.95,1,1.9,Conservar,Define el tramo físico de despacho para la hoja de ruta.
+rice_20,3,Operacional,historial.estado / fecha,seguimiento,1.0,3.0,0.85,2,1.27,Conservar,Audita en qué etapa del flujo se detuvo cada paquete.
+rice_21,3,Operacional,distancia_km,rutas,1.0,2.0,0.65,2,0.65,Evaluar,"Útil para estimar kilometraje, con baja confianza por distancias dispares."
+rice_22,3,Operacional,comentario,valoraciones,1.0,2.0,0.65,2,0.65,Evaluar,Permite separar reclamos reales en puntajes bajos tras filtrar contradicciones.
+rice_23,3,Operacional,medio_pago,ordenes_entrega,1.0,0.5,1.0,1,0.5,Evaluar,Secundario para el transporte; incide solo en cobro contra entrega.
+rice_24,3,Operacional,nombre,clientes,1.0,0.25,1.0,1,0.25,Descartar,No modifica la planificación agregada de rutas ni la capacidad por zona.

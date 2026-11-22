@@ -1,0 +1,11 @@
+2026-11-22 18:41:57,022 | INFO | Conexión exitosa con MongoDB
+2026-11-22 18:41:57,457 | INFO | Origen clientes: 100 documentos
+2026-11-22 18:41:57,457 | INFO | Origen ordenes_entrega: 100 documentos
+2026-11-22 18:41:57,457 | INFO | Origen rutas: 100 documentos
+2026-11-22 18:41:57,459 | INFO | Origen seguimiento: 100 documentos
+2026-11-22 18:41:57,459 | INFO | Origen valoraciones: 100 documentos
+2026-11-22 18:41:57,627 | INFO | clientes_cosmos_etl: 4 documentos insertados
+2026-11-22 18:41:58,544 | INFO | fact_ordenes_bi: 100 documentos insertados
+2026-11-22 18:42:00,545 | INFO | bridge_seguimiento_historial: 302 documentos insertados
+2026-11-22 18:42:00,888 | INFO | rice_atributos: 24 documentos insertados
+2026-11-22 18:42:01,276 | INFO | CSV exportados en C:\Users\pc\Documents\BaseDeDatosNoRelacional\datos_bi
